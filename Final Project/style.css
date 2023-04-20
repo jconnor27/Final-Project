@@ -1,0 +1,285 @@
+* {
+    box-sizing: border-box;
+  }
+  
+  /* 
+    These rules apply to actual HTML elements with no labelling!
+    So: they style the tags directly
+  */
+  
+  html {
+    background-color: #ffffff;
+    font-size: 16px;
+    min-width: 300px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+  
+    /* these are specific to different browsers */
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    -webkit-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+  
+  body {
+    margin: 0;
+    padding: 0;
+  
+    font-family: ‘Segoe UI’, Candara, ‘Bitstream Vera Sans’, ‘DejaVu Sans’, ‘Bitsream Vera Sans’, ‘Trebuchet MS’, Verdana, ‘Verdana Ref’, sans-serif;
+    font-weight: 400;
+    line-height: 1.5;
+    background-color: white;
+  }
+  
+  
+  a {
+    display: inline-block;
+    text-decoration: none;
+  }
+  
+  h2, h3{
+    margin:0;
+    padding:0;
+    padding-bottom:1.5rem;
+    color: rgb(45, 21, 205);
+  
+  }
+  
+  form {
+    accent-color: hsla(120, 100%, 50%, 0.482);
+  }
+  
+  /* Class Names - Styles */
+  
+  .wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    flex: 1;
+  }
+  
+  .container {
+    margin: 0 20px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: start;
+    flex:1;
+    flex-direction: row;
+  }
+  
+  .header {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    justify-content: center;
+    display: flex;
+   /* flex-direction: column;*/ /* Inherited from wrapper class */
+  }
+  
+  /*
+    This rule implies that the H1 tag lives within another HTML tag
+    It "inherits" some rules from the above
+    Those rules won't apply to an h1 that's outside a block with the class of 'header'
+  */
+  
+  .h1 {
+    display: flex; /* was inline-block */
+    align-items: center;
+    flex-direction: column;
+  
+    /* colors */
+    background-color: rgba(255, 166, 0, 0.8);
+    color: rgb(0, 0, 0);
+  
+    /* shapes */
+    border-radius: 6px;
+    font-size: 1.5rem;
+    margin:0; /* removing the margin on h1 tags means the header pins to the top if we move */
+    box-shadow: 0 0.5em 1em -0.125em rgb(10 10 10 / 10%), 0 0 0 1px rgb(10 10 10 / 2%);
+    /* Added by myself */
+    border: 3px solid;
+  }
+
+  /* For the top white box */
+  .hTopBox {
+    display: flex;
+  }
+
+  .whiteBox {
+    background-color: #ffffff;
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+
+  .hBottomBox {
+    display: flex;
+    flex-direction: row;
+    background-color: #f10707;
+    padding-left:100%;
+    padding-right:100%;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    gap: 150px;
+  }
+
+  .hButton {
+    background-color: white;
+    color: black;
+    border: 2px solid black;
+  }
+
+  .fButton {
+    background-color: white;
+    color: black;
+    border: 2px solid lightgray;
+  }
+
+.courseFilterSection {
+    display: flex;
+    flex-direction: column;
+    background-color: #aaaaaa;
+    justify-content: center;
+    min-width: 400px;
+    padding-bottom:100%;
+    gap: 10px;
+    border: 1px solid black;
+}
+
+.filterBoxGold {
+    display: flex;
+    background-color: rgba(255, 166, 0, 0.8);
+    min-width: 400px;
+    justify-content: center;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    border: 1px solid black;
+}
+.filterBoxWhite {
+    display: flex;
+    background-color: white;
+    min-width: 400px;
+    justify-content: center;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    border: 1px solid black;
+}
+.dispSection {
+    background-color: white;
+    
+}
+
+/*
+  .box {
+    background-color: rgba(255, 166, 0, 0.8);
+    border: 2px dashed;
+    border-radius: 4px;
+  
+    width: fit-content;
+    height:fit-content;
+    padding: 1.5rem;
+    margin: 0 auto;
+  }
+  
+  .left_section {
+    background-color: rgba(228, 125, 0, 0.955);
+    flex: 0 1 auto;
+    margin: 0rem 1rem 1rem 1rem;
+    padding: 1.5rem;
+  }
+  
+  .right_section {
+    background-color: rgba(228, 125, 0, 0.955);
+    flex: 1 2 auto;
+    margin: 0rem 1rem 1rem 1rem;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-flow: column;
+  }
+*/
+
+  /*
+    This block (below) is actually dependent on the "container" block having a flex set on it
+    and the "wrapper" block displaying as a flex column with a "vertical height" (vh) of 100.
+    That serves to cram the footer to the bottom of the page.
+  */
+
+  .buttons {
+    /* This class was a "simple" solution for lab, can be changed if needed */
+    display: flex;
+    justify-content: space-between;
+   }
+
+  .footer {
+    flex-shrink: 0;
+    padding: 1rem;
+    background-color: rgba(255, 166, 0, 0.8);
+    font-size: 1.2rem;
+    font-weight: 600;
+    border: 2px dashed;
+    color: rgb(45, 21, 205);
+  }
+  
+  .footer a {
+    color: rgb(45, 21, 205);
+    text-decoration: underline;
+  }
+
+  .hidden {
+    display: none;
+  }
+  
+  .visible {
+    display: block;
+  }
+
+  form input {
+    /* This is a hack to make sure our boxes line up with one another nicely */
+    width: 100%;
+    width: -moz-available;          /* WebKit-based browsers will ignore this. */
+    width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
+    width: fill-available;
+
+    /* here we are setting white space correctly */
+    margin-bottom: 1rem;
+    height: 2rem;
+    border-radius: 4px;
+  }
+
+form label {
+  width: 100%;
+  width: -moz-available;          /* WebKit-based browsers will ignore this. */
+  width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
+  width: fill-available;
+  align-items: flex-start;
+
+  display: block; /* this turns the label text into a box we can set margins on */
+  margin-bottom: 0.5rem;
+}
+
+/* Media Query Section */
+
+@media only screen and (max-width: 736px){
+    /* Rules in here will only apply when a screen is the correct size */
+    /* check it out by using your developer tools to shrink your screen-size */
+    .container {
+      background-color: rgba(204, 8, 162, 0.65);
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+    }
+
+    .right_section {
+      align-items: flex-start;
+      justify-content: flex-start;
+    }
+
+    /* .restaurant_list is from lab, this will will 
+        need to be changed to accomodate project layout */
+    .restaurant_list {
+      align-items: center;
+      justify-content: center;
+    }
+}
