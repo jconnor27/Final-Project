@@ -25,7 +25,8 @@
         </div>
       </header>
       <div class="container">
-        <div class="courseFilterSection">
+        <!-- Filter by Course box -->
+        <div class="filterSection">
           <div class="filterBoxGold">
             Course
         </div>
@@ -37,12 +38,63 @@
             Filter By:
           </div>
           <div class="filterBoxWhite">
-            <button type="button" id="f_department">_</button>
-            <label for="f_department">Department</label>
+            <button type="button" id="f_course_department">_</button>
+            <label for="f_course_department">Department</label>
           </div>
           <div class="filterBoxWhite">
-            <button type="button" id="f_professor">_</button>
-            <label for="f_professor">Professor</label>
+            <button type="button" id="f_course_professor">_</button>
+            <label for="f_course_professor">Professor</label>
+          </div>
+        </div>
+        <!-- Filter by Department box -->
+        <div class="filterSection hidden">
+          <div class="filterBoxGold">
+            Department
+        </div>
+        <div class="filterBoxWhite">
+          <label for="department_Name">Name:</label>
+          <input type="text" id="department_Name" name="departmentName" />
+        </div>
+        <div class="filterBoxGold">
+          Filter By:
+        </div>
+        <div class="filterBoxWhite">
+          <button type="button" id="f_department_course">_</button>
+          <label for="f_department_course">Course</label>
+        </div>
+        <div class="filterBoxWhite">
+          <button type="button" id="f_department_professor">_</button>
+          <label for="f_department_professor">Professor</label>
+        </div>
+        <!-- When "Professor" box is clicked, tnis box comes up -->
+        <div class="filterSubBoxWhite">
+            <button type="button" id="f_department_professor_semesters">_</button>
+            <label for="f_department_professor_semesters">Sem W/ Dept</label>
+        </div>
+        <div class="filterSubBoxWhite">
+          <button type="button" id="f_department_professor_slasses">_</button>
+          <label for="f_department_professor_classes">Num Class Tchng</label>
+        </div>
+        </div>
+        <!-- Filter by Professor box -->
+        <div class="filterSection hidden">
+          <div class="filterBoxGold">
+            Professor Name
+        </div>
+          <div class="filterBoxWhite">
+            <label for="course_Name">Name:</label>
+            <input type="text" id="course_Name" name="courseName" />
+          </div>
+          <div class="filterBoxGold">
+            Filter By:
+          </div>
+          <div class="filterBoxWhite">
+            <button type="button" id="f_professor_courses">_</button>
+            <label for="f_professor_courses">Courses</label>
+          </div>
+          <div class="filterBoxWhite">
+            <button type="button" id="f_professor_department">_</button>
+            <label for="f_professor_department">Department</label>
           </div>
         </div>
         <div class="dispSection"></div>

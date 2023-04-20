@@ -136,7 +136,7 @@
     border: 2px solid lightgray;
   }
 
-.courseFilterSection {
+.filterSection {
     display: flex;
     flex-direction: column;
     background-color: #aaaaaa;
@@ -165,6 +165,20 @@
     padding-bottom: 1rem;
     border: 1px solid black;
 }
+
+.filterSubBoxWhite {
+  display: flex;
+  flex-direction: row;
+  background-color: white;
+    min-width: 400px;
+    justify-content: center;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-left: 15rem;
+}
+
+
+
 .dispSection {
     background-color: white;
     
