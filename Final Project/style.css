@@ -33,7 +33,6 @@
     background-color: white;
   }
   
-  
   a {
     display: inline-block;
     text-decoration: none;
@@ -160,7 +159,7 @@
     display: flex;
     background-color: white;
     min-width: 400px;
-    justify-content: center;
+    justify-content: flex-start;
     padding-top: 1rem;
     padding-bottom: 1rem;
     border: 1px solid black;
@@ -177,7 +176,26 @@
     padding-left: 15rem;
 }
 
+.filterByBox {
+    display: flex;
+    flex-direction: row;
+    background-color: rgba(255, 166, 0, 0.8);
+    min-width: 400px;
+    justify-content: space-around;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    border: 1px solid black;
+}
 
+.filterNameBox {
+    display: flex;
+    background-color: white;
+    min-width: 400px;
+    justify-content: center;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    border: 1px solid black;
+}
 
 .dispSection {
     background-color: white;
