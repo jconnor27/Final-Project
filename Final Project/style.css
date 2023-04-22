@@ -198,14 +198,28 @@ form {
   display: flex;
   background-color: white;
   min-width: 400px;
-  justify-content: center;
+  justify-content: flex-start;
   padding-top: 1rem;
   padding-bottom: 1rem;
   border: 1px solid black;
+  flex-direction: row;
 }
 
 .filterNameTextField {
-    margin-left: 1rem;
+    margin-right:5rem;
+}
+
+.nameTextFieldLabel {
+    margin-left: 7rem;
+    padding-right: 0;
+}
+
+.filterTextFieldLabel {
+    margin-left: -7rem;
+}
+
+.filterSubTextFieldLabel {
+    
 }
 
 .dispSection {
@@ -243,19 +257,20 @@ form {
 */
 
 .filterByCheckbox {
-    margin-left: 3rem;
-    margin-right: 1rem;
+    margin-left: -5rem;
 }
 
 .filterBySubCheckbox{
-    margin-left: 3.5rem;
-    margin-right: 1rem;
-    padding-bottom: 5rem;
+    margin-left: -7rem;
 }
 
 .initialBox {
     display: flex;
     justify-content: center;
+}
+
+.nameTextFieldLabel {
+    display: flex;
 }
 
 .buttons {

@@ -32,15 +32,16 @@
         Initialize Data
       </button>
       </div>
+
       <!-- Filter Boxes -->
       <div class="container">
         <!-- Filter by Course box -->
-        <div class="filterSection hidden" id="filter_course_box">
+        <div class="filterSection" id="filter_course_box">
           <div class="filterBoxGold bigBoldText">
             <u>Course</u>
           </div>
           <div class="filterNameBox">
-            <label for="course_Name">Name:</label>
+            <label for="course_Name" class="nameTextFieldLabel">Name:</label>
             <input type="text" class="filterNameTextField" id="course_Name" name="courseName"/>
           </div>
           <div class="filterByBoxGold bigText">
@@ -49,11 +50,11 @@
           </div>
           <div class="filterBoxWhite">
             <input type="checkbox" class="filterByCheckbox" id="course_department_checkbox" name="courseDepartment"/>
-            <label for="course_department_checkbox">Department</label>
+            <label for="course_department_checkbox" class="filterTextFieldLabel">Department</label>
           </div>
           <div class="filterBoxWhite">
             <input type="checkbox" class="filterByCheckbox" id="course_professor_checkbox" name="courseProfessor"/>
-            <label for="f_course_professor">Professor</label>
+            <label for="f_course_professor" class="filterTextFieldLabel">Professor</label>
           </div>
         </div>
         <!-- Filter by Department box -->
@@ -62,7 +63,7 @@
             <u>Department</u>
           </div>
           <div class="filterNameBox">
-            <label for="department_Name">Name:</label>
+            <label for="department_Name" class="nameTextFieldLabel">Name:</label>
             <input type="text" class="filterNameTextField" id="department_Name" name="departmentName"/>
           </div>
           <div class="filterByBoxGold bigText">
@@ -73,17 +74,17 @@
           </div>
           <div class="filterBoxWhite">
             <input type="checkbox" class="filterByCheckbox" id="department_course_checkbox" name="departmentCourse"/>
-              <label for="department_course_checkbox">Course</label>
+              <label for="department_course_checkbox" class="filterTextFieldLabel">Course</label>
           </div>
           <div class="filterBoxWhite">
             <input type="checkbox" class="filterByCheckbox" id="department_professor_checkbox" name="departmentProfessor"/>
-            <label for="department_professor_checkbox">Professor</label>
+            <label for="department_professor_checkbox" class="filterTextFieldLabel">Professor</label>
           </div>
           <!-- When "Professor" box is clicked, this box comes up -->
           <div class="filterSubBoxWhite" id="filter_department_professor_box">
             <div>
               <input type="checkbox" class="filterBySubCheckbox" id="department_professor_semesters_checkbox" name="departmentProfessorSemesters"/>
-              <label for="department_professor_semesters_checkbox">Semesters With Department</label>
+              <label for="department_professor_semesters_checkbox" class="filterSubTextFieldLabel">Semesters With Department</label>
             </div>
             <div>
               <input type="checkbox" class="filterBySubCheckbox" id="department_professor_number_checkbox" name="departmentProfessorNumber"/>
@@ -97,7 +98,7 @@
             <u>Professor Name</u>
           </div>
           <div class="filterNameBox">
-            <label for="professor_Name">Name:</label>
+            <label for="professor_Name" class="nameTextFieldLabel">Name:</label>
             <input type="text" class="filterNameTextField" id="professor_Name" name="professorName" />
           </div>
           <div class="filterByBoxGold bigText">
@@ -106,11 +107,11 @@
           </div>
           <div class="filterBoxWhite">
             <input type="checkbox" class="filterByCheckbox" id="professor_courses_checkbox" name="professorCourses"/>
-            <label for="professor_courses_checkbox">Courses</label>
+            <label for="professor_courses_checkbox" class="filterTextFieldLabel">Courses</label>
           </div>
           <div class="filterBoxWhite">
             <input type="checkbox" class="filterByCheckbox" id="professor_department_checkbox" name="professorDepartment"/>
-            <label for="professor_department_checkbox">Department</label>
+            <label for="professor_department_checkbox" class="filterTextFieldLabel">Department</label>
           </div>
         </div>
         <div class="dispSection"></div>
