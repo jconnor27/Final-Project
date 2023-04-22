@@ -253,6 +253,11 @@ form {
     padding-bottom: 5rem;
 }
 
+.initialBox {
+    display: flex;
+    justify-content: center;
+}
+
 .buttons {
   /* This class was a "simple" solution for lab, can be changed if needed */
   display: flex;

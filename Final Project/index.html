@@ -8,6 +8,8 @@
   </head>
   <body>
     <div class="wrapper">
+      <form action="https://data.princegeorgescountymd.gov/resource/umjn-t2iz.json"
+      class ="main_form">
       <!-- Top Filter Buttons -->
       <header class="header h1">
         <div class="hTopBox">
@@ -24,10 +26,16 @@
         </div>
       </header>
 
+      <!-- Initial Screen -->
+      <div class ="initialBox">
+      <button type="button" id="initialize_button">
+        Initialize Data
+      </button>
+      </div>
       <!-- Filter Boxes -->
       <div class="container">
         <!-- Filter by Course box -->
-        <div class="filterSection">
+        <div class="filterSection hidden" id="filter_course_box">
           <div class="filterBoxGold bigBoldText">
             <u>Course</u>
           </div>
@@ -49,7 +57,7 @@
           </div>
         </div>
         <!-- Filter by Department box -->
-        <div class="filterSection hidden">
+        <div class="filterSection hidden" id="filter_department_box">
           <div class="filterBoxGold bigBoldText">
             <u>Department</u>
           </div>
@@ -72,7 +80,7 @@
             <label for="department_professor_checkbox">Professor</label>
           </div>
           <!-- When "Professor" box is clicked, this box comes up -->
-          <div class="filterSubBoxWhite">
+          <div class="filterSubBoxWhite" id="filter_department_professor_box">
             <div>
               <input type="checkbox" class="filterBySubCheckbox" id="department_professor_semesters_checkbox" name="departmentProfessorSemesters"/>
               <label for="department_professor_semesters_checkbox">Semesters With Department</label>
@@ -84,7 +92,7 @@
           </div>
         </div>
         <!-- Filter by Professor box -->
-        <div class="filterSection hidden">
+        <div class="filterSection hidden" id="filter_professor_box">
           <div class="filterBoxGold bigBoldText">
             <u>Professor Name</u>
           </div>
@@ -107,6 +115,8 @@
         </div>
         <div class="dispSection"></div>
       </div>
+    </form>
     </div>
+    <script scr="./script.js"></script>
   </body>
 </html>
