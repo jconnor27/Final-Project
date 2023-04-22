@@ -1,14 +1,29 @@
 
 async function mainEvent() {
     const mainForm = document.querySelector(".main_form");
+    const initializeButton = document.querySelector("#initialize_button");
+
     const headerCourseButton = document.querySelector("#h_course");
     const headerDepartmentButton = document.querySelector("#h_department");
     const headerProfessorButton = document.querySelector("#h_professor");
+   
     const filterCourseSection = document.querySelector("#filter_course_box");
     const filterDepartmentSection = document.querySelector("#filter_department_box");
     const filterProfessorSection = document.querySelector("#filter_professor_box");
-    const initializeButton = document.querySelector("#initialize_button");
+
+    const departmentProfessorCheckbox = document.querySelector("#department_professor_checkbox");
     
+
+    departmentProfessorCheckbox.addEventListener("change", (event)=> { 
+        if (this.checked) {
+            console.log("Fired - department_professor_checkbox is now selected")
+        } else {
+            console.log("Fired - department_professor_checkbox is no longer selected")
+        }
+
+    })
+
+    /* Initialize the main_form to allow for event listeners */
     initializeButton.addEventListener("click", async (submitEvent) => {
         console.log("Fired - initialize button");
 
@@ -18,7 +33,7 @@ async function mainEvent() {
         const storedData = await data.json();
     })
 
-    /* Header Button Event Listeners */
+/* Header Button Event Listeners */
 
     /* Set view to search by course */
     headerCourseButton.addEventListener("click", (event) => {

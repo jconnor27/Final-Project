@@ -126,6 +126,7 @@ form {
 }
 
 .hBottomBox {
+  flex: 1 2 auto;
   display: flex;
   flex-direction: row;
   background-color: #f10707;
@@ -141,6 +142,8 @@ form {
   flex-direction: column;
   background-color: #aaaaaa;
   justify-content: center;
+  align-content: center;
+  align-items: flex-end;
   min-width: 400px;
   padding-bottom: 100%;
   border: 1px solid black;
@@ -158,9 +161,12 @@ form {
 }
 .filterBoxWhite {
   display: flex;
+  flex-direction: row;
+
   background-color: white;
   min-width: 400px;
-  justify-content: flex-start;
+  justify-content: flex-start; /* Keeps items to the left horizontally */
+  align-items: center; /* Keeps items centered in box vertically */
   padding-top: 1rem;
   padding-bottom: 1rem;
   border: 1px solid black;
@@ -174,6 +180,7 @@ form {
   background-color: white;
   min-width: 400px;
   justify-content: flex-start;
+  align-items: center;
   /* padding-top: 1rem;*/ /* Removed to pull box up */
   padding-bottom: 1rem;
   padding-left: 1rem;
@@ -181,6 +188,17 @@ form {
   border-left: 1px solid black;
   border-right: 1px solid black;
   border-bottom: 1px solid black;
+}
+
+.filterSubBoxContainer {
+  display: flex;
+  flex-direction: row;
+  margin-left: -1rem;
+}
+
+.main_form_box{
+  display: flex;
+  flex-direction: column;
 }
 
 .filterByBoxGold {
@@ -215,11 +233,14 @@ form {
 }
 
 .filterTextFieldLabel {
-    margin-left: -7rem;
+    width: fit-content;
+    padding-left: 1.5rem;
 }
 
 .filterSubTextFieldLabel {
-    
+  display: flex;
+  white-space: nowrap;
+  margin-left: -1rem;
 }
 
 .dispSection {
@@ -257,7 +278,9 @@ form {
 */
 
 .filterByCheckbox {
-    margin-left: -5rem;
+  width: fit-content;
+  margin-left: 1.5rem;
+  margin-top: .75rem;
 }
 
 .filterBySubCheckbox{
@@ -284,6 +307,7 @@ form {
 }
 
 .hButton {
+    display: flex;
     background-color: white;
     color: black;
     border: 2px solid black;

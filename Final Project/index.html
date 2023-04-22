@@ -9,7 +9,7 @@
   <body>
     <div class="wrapper">
       <form action="https://data.princegeorgescountymd.gov/resource/umjn-t2iz.json"
-      class ="main_form">
+      class ="main_form_box main_form">
       <!-- Top Filter Buttons -->
       <header class="header h1">
         <div class="hTopBox">
@@ -77,18 +77,18 @@
               <label for="department_course_checkbox" class="filterTextFieldLabel">Course</label>
           </div>
           <div class="filterBoxWhite">
-            <input type="checkbox" class="filterByCheckbox" id="department_professor_checkbox" name="departmentProfessor"/>
+            <input type="checkbox" class="filterByCheckbox" id="department_professor_checkbox" name="departmentProfessor" value="0"/>
             <label for="department_professor_checkbox" class="filterTextFieldLabel">Professor</label>
           </div>
           <!-- When "Professor" box is clicked, this box comes up -->
-          <div class="filterSubBoxWhite" id="filter_department_professor_box">
-            <div>
+          <div class="filterSubBoxWhite hidden" id="filter_department_professor_box">
+            <div class="filterSubBoxContainer">
               <input type="checkbox" class="filterBySubCheckbox" id="department_professor_semesters_checkbox" name="departmentProfessorSemesters"/>
               <label for="department_professor_semesters_checkbox" class="filterSubTextFieldLabel">Semesters With Department</label>
             </div>
-            <div>
+            <div class="filterSubBoxContainer">
               <input type="checkbox" class="filterBySubCheckbox" id="department_professor_number_checkbox" name="departmentProfessorNumber"/>
-              <label for="department_professor_number_checkbox">Number of Classes Teaching</label>
+              <label for="department_professor_number_checkbox" class="filterSubTextFieldLabel">Number of Classes Teaching</label>
             </div>
           </div>
         </div>
@@ -114,7 +114,9 @@
             <label for="professor_department_checkbox" class="filterTextFieldLabel">Department</label>
           </div>
         </div>
-        <div class="dispSection"></div>
+        <div class="dispSection">
+          image place holder
+        </div>
       </div>
     </form>
     </div>
