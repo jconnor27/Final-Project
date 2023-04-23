@@ -1,6 +1,7 @@
 
 async function mainEvent() {
     const mainForm = document.querySelector(".main_form");
+    
     const initializeButton = document.querySelector("#initialize_button");
 
     const headerCourseButton = document.querySelector("#h_course");
@@ -15,32 +16,130 @@ async function mainEvent() {
     const courseDepartmentCheckbox = document.querySelector("#course_department_checkbox");
     const courseProfessorCheckbox = document.querySelector("#course_professor_checkbox");
 
-
-
+    const departmentCourseCheckbox = document.querySelector("#department_course_checkbox");
     const departmentProfessorCheckbox = document.querySelector("#department_professor_checkbox");
+    const departmentProfessorSemestersCheckbox = document.querySelector("#department_professor_semesters_checkbox");
+    const departmentProfessorNumberCheckbox = document.querySelector("#department_professor_number_checkbox");
+    
+    const professorCoursesCheckbox = document.querySelector("#professor_courses_checkbox");
+    const professorDepartmentCheckbox = document.querySelector("#professor_department_checkbox");
 
-    departmentProfessorCheckbox.addEventListener("change", (event)=> { 
-        if (departmentProfessorCheckbox.checked) {
-            console.log("Fired - department_professor_checkbox is now selected");
-            filterDepartmentProfessorSubsection.classList.remove("hidden");
-        } else {
-            console.log("Fired - department_professor_checkbox is no longer selected")
-            filterDepartmentProfessorSubsection.classList.add("hidden");
-        }
-    })
+    
 
     /* Initialize the main_form to allow for event listeners */
     initializeButton.addEventListener("click", async (submitEvent) => {
         console.log("Fired - initialize button");
 
-        const data = await fetch(
-            "https://data.princegeorgescountymd.gov/resource/umjn-t2iz.json"
+        console.log("Fired - loading professor - a list of all professors");
+        const professorsListRaw = await fetch (
+            "https://api.umd.io/v1/professors", {mode:"cors"}
         );
-        const storedData = await data.json();
+       
+        const generalFormRaw = await fetch (
+            "https://api.umd.io/v1/"
+        );
+        const generalForm = await generalFormRaw.json();
+        console.log("got generalForm data: ");
+        console.table(generalForm);
+
     })
 
-/* Checkbox Event Listeners */
+/* Checkbox Event Listeners - Professor Tab */
+    professorCoursesCheckbox.addEventListener("change", (event)=> {
+        if (professorCoursesCheckbox.checked) {
+            console.log("Fired - professor_courses_checkbox is now selected");
 
+            if (professorDepartmentCheckbox.checked) {
+                professorDepartmentCheckbox.checked = false;
+            }
+        } else {
+            console.log("Fired - professor_courses_checkbox is no longer selected");
+        }
+    })
+
+    professorDepartmentCheckbox.addEventListener("change", (event)=> {
+        if (professorDepartmentCheckbox.checked) {
+            console.log("Fired - professor_department_checkbox is now selected");
+
+            if (professorCoursesCheckbox.checked) {
+                professorCoursesCheckbox.checked = false;
+            }
+        } else {
+            console.log("Fired - professor_department_checkbox is no longer selected");
+
+        }
+    })
+
+
+/* Checkbox Event Listeners - Department Tab */
+    departmentCourseCheckbox.addEventListener("change", (event)=> {
+        if (departmentCourseCheckbox.checked) {
+            console.log("Fired - department_course_checkbox is now selected");
+
+            if (departmentProfessorCheckbox.checked) {
+                departmentProfessorCheckbox.checked = false;
+                filterDepartmentProfessorSubsection.classList.add("hidden");
+
+                /* Clearing department_professor sub-checkboxes */
+                if (departmentProfessorSemestersCheckbox.checked) {
+                    departmentProfessorSemestersCheckbox.checked = false;
+                }
+                if (departmentProfessorNumberCheckbox.checked) {
+                    departmentProfessorNumberCheckbox.checked = false;
+                }
+            }
+        } else {
+            console.log("Fired - department_course_checkbox is no longer selected");
+        }
+
+    }) 
+
+    departmentProfessorCheckbox.addEventListener("change", (event)=> { 
+        if (departmentProfessorCheckbox.checked) {
+            console.log("Fired - department_professor_checkbox is now selected");
+            filterDepartmentProfessorSubsection.classList.remove("hidden");
+
+            if (departmentCourseCheckbox.checked) {
+                departmentCourseCheckbox.checked = false;
+            }
+        } else {
+            console.log("Fired - department_professor_checkbox is no longer selected");
+
+            /* Clearing the subsection boxes */
+            if (departmentProfessorSemestersCheckbox.checked) {
+                departmentProfessorSemestersCheckbox.checked = false;
+            }
+            if (departmentProfessorNumberCheckbox.checked) {
+                departmentProfessorNumberCheckbox.checked = false;
+            }
+            filterDepartmentProfessorSubsection.classList.add("hidden");
+        }
+    })
+
+    departmentProfessorSemestersCheckbox.addEventListener("change", (event)=> {
+        if (departmentProfessorSemestersCheckbox.checked) {
+            console.log("Fired - department_professor_semesters_checkbox is now selected");
+
+            if (departmentProfessorNumberCheckbox.checked) {
+                departmentProfessorNumberCheckbox.checked = false;
+            }
+        } else {
+            console.log("Fired - department_professor_semesters_checkbox is no longer selected");
+        }
+    })
+
+    departmentProfessorNumberCheckbox.addEventListener("change", (event)=> {
+        if (departmentProfessorNumberCheckbox.checked) {
+            console.log("Fired - department_professor_number_checkbox is now selected");
+            if (departmentProfessorSemestersCheckbox.checked) {
+                departmentProfessorSemestersCheckbox.checked = false;
+            }
+        } else {
+            console.log("Fired - department_professor_number_checkbox is no longer selected");
+        }
+    })
+
+/* Checkbox Event Listeners - Course Tab */
     courseDepartmentCheckbox.addEventListener("change", (event)=> {
         if (courseDepartmentCheckbox.checked) {
             console.log("Fired - course_department_checkbox is now selected");
