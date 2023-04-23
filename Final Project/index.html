@@ -15,28 +15,27 @@
         <div class="hTopBox">
           <div class="whiteBox bigBoldText">Search By:</div>
         </div>
+        <div class="hBottomBoxContainer">
         <div class="hBottomBox">
           <button type="button" class="hButton" id="h_course">Course</button>
-          <button type="button" class="hButton" id="h_department">
-            Department
-          </button>
-          <button type="button" class="hButton" id="h_professor">
-            Professor
-          </button>
+          <button type="button" class="hButton" id="h_department">Department</button>
+          <button type="button" class="hButton" id="h_professor">Professor</button>
+        </div>
         </div>
       </header>
 
       <!-- Initial Screen -->
       <div class ="initialBox">
-      <button type="button" id="initialize_button">
-        Initialize Data
-      </button>
+        <div class="bigText">
+          Select a tab above to begin your search
+        </div>
+      <button type="button" class="hidden" id="initialize_button">Initialize Data</button>
       </div>
 
       <!-- Filter Boxes -->
       <div class="container">
         <!-- Filter by Course box -->
-        <div class="filterSection" id="filter_course_box">
+        <div class="filterSection hidden" id="filter_course_box">
           <div class="filterBoxGold bigBoldText">
             <u>Course</u>
           </div>

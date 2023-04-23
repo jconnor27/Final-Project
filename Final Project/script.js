@@ -10,17 +10,23 @@ async function mainEvent() {
     const filterCourseSection = document.querySelector("#filter_course_box");
     const filterDepartmentSection = document.querySelector("#filter_department_box");
     const filterProfessorSection = document.querySelector("#filter_professor_box");
+    const filterDepartmentProfessorSubsection = document.querySelector("#filter_department_professor_box"); 
+
+    const courseDepartmentCheckbox = document.querySelector("#course_department_checkbox");
+    const courseProfessorCheckbox = document.querySelector("#course_professor_checkbox");
+
+
 
     const departmentProfessorCheckbox = document.querySelector("#department_professor_checkbox");
-    
 
     departmentProfessorCheckbox.addEventListener("change", (event)=> { 
-        if (this.checked) {
-            console.log("Fired - department_professor_checkbox is now selected")
+        if (departmentProfessorCheckbox.checked) {
+            console.log("Fired - department_professor_checkbox is now selected");
+            filterDepartmentProfessorSubsection.classList.remove("hidden");
         } else {
             console.log("Fired - department_professor_checkbox is no longer selected")
+            filterDepartmentProfessorSubsection.classList.add("hidden");
         }
-
     })
 
     /* Initialize the main_form to allow for event listeners */
@@ -33,6 +39,36 @@ async function mainEvent() {
         const storedData = await data.json();
     })
 
+/* Checkbox Event Listeners */
+
+    courseDepartmentCheckbox.addEventListener("change", (event)=> {
+        if (courseDepartmentCheckbox.checked) {
+            console.log("Fired - course_department_checkbox is now selected");
+
+            /* Doesn't allow for two filters of the same scope to be applied at once */
+            if (courseProfessorCheckbox.checked) {
+                courseProfessorCheckbox.checked = false;
+            }
+        } else {
+            console.log("Fired - course_department_checkbox is no longer selected");
+        }
+        /* Insert future code here */
+    })
+
+    courseProfessorCheckbox.addEventListener("change", (event)=> {
+        if (courseProfessorCheckbox.checked) {
+            console.log("Fired - course_professor_checkbox is now selected");
+            
+            /* Doesn't allow for two filters of the same scope to be applied at once */
+            if (courseDepartmentCheckbox.checked) {
+                courseDepartmentCheckbox.checked = false;
+            }
+        } else {
+            console.log("Fired - course_professor_checkbox is no longer selected");
+        }
+        /* Insert future code here */
+    })
+
 /* Header Button Event Listeners */
 
     /* Set view to search by course */
@@ -41,13 +77,19 @@ async function mainEvent() {
 
         if (filterDepartmentSection.classList.contains("hidden") != true) {
             filterDepartmentSection.classList.add("hidden");
+            headerDepartmentButton.classList.remove("currentHeaderFilterTab");
         }
         if (filterProfessorSection.classList.contains("hidden") != true) {
             filterProfessorSection.classList.add("hidden");
+            headerProfessorButton.classList.remove("currentHeaderFilterTab");
         }
         if (filterCourseSection.classList.contains("hidden")) {
             filterCourseSection.classList.remove("hidden");
+            headerCourseButton.classList.add("currentHeaderFilterTab");
         }
+       /* if (headerCourseButton.classList.contains("currentHeaderFilterTab") != true) {
+            headerCourseButton.classList.add("currentHeaderFilterTab");
+        }*/
     })
 
     /* Set view to search by department */
@@ -56,12 +98,15 @@ async function mainEvent() {
         
         if (filterProfessorSection.classList.contains("hidden") != true) {
             filterProfessorSection.classList.add("hidden");
+            headerProfessorButton.classList.remove("currentHeaderFilterTab");
         }
         if (filterCourseSection.classList.contains("hidden") != true) {
             filterCourseSection.classList.add("hidden");
+            headerCourseButton.classList.remove("currentHeaderFilterTab");
         }
         if (filterDepartmentSection.classList.contains("hidden")) {
             filterDepartmentSection.classList.remove("hidden");
+            headerDepartmentButton.classList.add("currentHeaderFilterTab");
         }
     })
 
@@ -71,13 +116,17 @@ async function mainEvent() {
 
         if (filterCourseSection.classList.contains("hidden") != true) {
             filterCourseSection.classList.add("hidden");
+            headerCourseButton.classList.remove("currentHeaderFilterTab");
         }
         if (filterDepartmentSection.classList.contains("hidden") != true) {
             filterDepartmentSection.classList.add("hidden");
+            headerDepartmentButton.classList.remove("currentHeaderFilterTab");
         }
         if (filterProfessorSection.classList.contains("hidden")) {
             filterProfessorSection.classList.remove("hidden");
+            headerProfessorButton.classList.add("currentHeaderFilterTab");
         }
     })
+
 }
 document.addEventListener("DOMContentLoaded", async () => mainEvent()); // the async keyword means we can make API requests

@@ -129,12 +129,26 @@ form {
   flex: 1 2 auto;
   display: flex;
   flex-direction: row;
+  justify-content: space-evenly;
   background-color: #f10707;
   padding-left: 9.5rem;
   padding-right: 9.5rem;
   padding-top: 1rem;
   padding-bottom: 1rem;
-  gap: 200px;
+  /*gap: 10rem;*/
+}
+
+.hBottomBoxContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: #f10707;
+  width: 100%;
+  border-left: 2px solid black;
+  border-right: 2px solid black;
+  border-top: 2px solid black;
+  padding-bottom: 0;
+
 }
 
 .filterSection {
@@ -314,6 +328,22 @@ form {
     font-size: 24px;
   }
   
+  .hButton:hover {
+    /* Add a check part to see if already selected, then red border */
+    margin:0;
+    border: 4px solid rgb(3, 255, 3);
+  }
+
+  .currentHeaderFilterTab {
+    background-color: rgba(3, 255, 3, 0.7);
+  }
+
+  .hButton:focus-within {
+    /* Add a check part to see if already selected, then red border */
+    margin:0;
+    border: 4px solid rgb(255, 3, 3);
+  }
+
   .fButton {
     background-color: white;
     color: black;
