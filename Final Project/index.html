@@ -4,6 +4,8 @@
     <meta hhtp-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>John Connor's Final Project</title>
+    <script src="./script.js"></script>
+
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
@@ -33,15 +35,16 @@
       </div>
 
       <!-- Filter Boxes -->
-      <div class="container">
+      <div class="conatiner">
+      <div class="filterBoxContainer">
         <!-- Filter by Course box -->
         <div class="filterSection hidden" id="filter_course_box">
           <div class="filterBoxGold bigBoldText">
             <u>Course</u>
           </div>
           <div class="filterNameBox">
-            <label for="course_Name" class="nameTextFieldLabel">Name:</label>
-            <input type="text" class="filterNameTextField" id="course_Name" name="courseName"/>
+            <label for="course_name_textfield" class="nameTextfieldLabel">Name:</label>
+            <input type="text" class="filterNameTextfield" id="course_name_textfield" name="courseNameTextfield"/>
           </div>
           <div class="filterByBoxGold bigText">
             Filter By:
@@ -49,11 +52,11 @@
           </div>
           <div class="filterBoxWhite">
             <input type="checkbox" class="filterByCheckbox" id="course_department_checkbox" name="courseDepartment"/>
-            <label for="course_department_checkbox" class="filterTextFieldLabel">Department</label>
+            <label for="course_department_checkbox" class="filterTextfieldLabel">Department</label>
           </div>
           <div class="filterBoxWhite">
             <input type="checkbox" class="filterByCheckbox" id="course_professor_checkbox" name="courseProfessor"/>
-            <label for="f_course_professor" class="filterTextFieldLabel">Professor</label>
+            <label for="f_course_professor" class="filterTextfieldLabel">Professor</label>
           </div>
         </div>
         <!-- Filter by Department box -->
@@ -62,8 +65,8 @@
             <u>Department</u>
           </div>
           <div class="filterNameBox">
-            <label for="department_Name" class="nameTextFieldLabel">Name:</label>
-            <input type="text" class="filterNameTextField" id="department_Name" name="departmentName"/>
+            <label for="department_name_textfield" class="nameTextfieldLabel">Name:</label>
+            <input type="text" class="filterNameTextfield" id="department_name_textfield" name="departmentNameTextfield"/>
           </div>
           <div class="filterByBoxGold bigText">
             Filter By:
@@ -73,21 +76,21 @@
           </div>
           <div class="filterBoxWhite">
             <input type="checkbox" class="filterByCheckbox" id="department_course_checkbox" name="departmentCourse"/>
-              <label for="department_course_checkbox" class="filterTextFieldLabel">Course</label>
+              <label for="department_course_checkbox" class="filterTextfieldLabel">Course</label>
           </div>
           <div class="filterBoxWhite">
             <input type="checkbox" class="filterByCheckbox" id="department_professor_checkbox" name="departmentProfessor" value="0"/>
-            <label for="department_professor_checkbox" class="filterTextFieldLabel">Professor</label>
+            <label for="department_professor_checkbox" class="filterTextfieldLabel">Professor</label>
           </div>
           <!-- When "Professor" box is clicked, this box comes up -->
           <div class="filterSubBoxWhite hidden" id="filter_department_professor_box">
             <div class="filterSubBoxContainer">
               <input type="checkbox" class="filterBySubCheckbox" id="department_professor_semesters_checkbox" name="departmentProfessorSemesters"/>
-              <label for="department_professor_semesters_checkbox" class="filterSubTextFieldLabel">Semesters With Department</label>
+              <label for="department_professor_semesters_checkbox" class="filterSubTextfieldLabel">Semesters With Department</label>
             </div>
             <div class="filterSubBoxContainer">
               <input type="checkbox" class="filterBySubCheckbox" id="department_professor_number_checkbox" name="departmentProfessorNumber"/>
-              <label for="department_professor_number_checkbox" class="filterSubTextFieldLabel">Number of Classes Teaching</label>
+              <label for="department_professor_number_checkbox" class="filterSubTextfieldLabel">Number of Classes Teaching</label>
             </div>
           </div>
         </div>
@@ -97,28 +100,30 @@
             <u>Professor Name</u>
           </div>
           <div class="filterNameBox">
-            <label for="professor_Name" class="nameTextFieldLabel">Name:</label>
-            <input type="text" class="filterNameTextField" id="professor_Name" name="professorName" />
+            <label for="professor_name_textfield" class="nameTextfieldLabel">Name:</label>
+            <input type="text" class="filterNameTextfield" id="professor_name_textfield" name="professorNameTextfield" />
           </div>
           <div class="filterByBoxGold bigText">
             Filter By:
-            <button type="button" class="refreshButton" id="course_refresh">Refresh</button>
+            <button type="button" class="refreshButton" id="professor_refresh">Refresh</button>
           </div>
           <div class="filterBoxWhite">
             <input type="checkbox" class="filterByCheckbox" id="professor_courses_checkbox" name="professorCourses"/>
-            <label for="professor_courses_checkbox" class="filterTextFieldLabel">Courses</label>
+            <label for="professor_courses_checkbox" class="filterTextfieldLabel">Courses</label>
           </div>
           <div class="filterBoxWhite">
             <input type="checkbox" class="filterByCheckbox" id="professor_department_checkbox" name="professorDepartment"/>
-            <label for="professor_department_checkbox" class="filterTextFieldLabel">Department</label>
+            <label for="professor_department_checkbox" class="filterTextfieldLabel">Department</label>
           </div>
         </div>
-        <div class="dispSection">
-          image place holder
+      </div>
+        <div class="displaySection hidden" id="display_section_box">
+          <div id="chartContainer" style="height: 300px; width: 100%;"></div>
         </div>
       </div>
     </form>
     </div>
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
     <script src="./script.js"></script>
   </body>
 </html>

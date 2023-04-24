@@ -1,9 +1,163 @@
 
+/* Returns an array containing the courses a specific Professor (professorName) has
+   taught and correspsonding semesters ids */
+function getSpecificProfessorCourses(professorName, professorsListGeneral) {
+    console.log("Entered - getSpecificProfessorCourses - professorName = " + 
+    professorName + " - professorsListGeneral = " + professorsListGeneral);
+    const lowerProfessorName = professorName.toLowerCase();
+    let coursesTaught = [];
+
+    professorsListGeneral.forEach((prof) => {
+        lowerProfName =prof["name"].toLowerCase();       
+
+        if (lowerProfName.localeCompare(lowerProfessorName) == 0) {
+            console.log("Fired - lowerProfName .localCompare lowerProfessorName == 0");
+            
+            const coursesTaughtRaw = JSON.stringify(prof["taught"]);
+            console.log("Value - taught stringigyed = " + coursesTaughtRaw);
+            
+            coursesTaught = parseCoursesString(coursesTaughtRaw);
+           /* console.table("value - coursesTaught = " + coursesTaught);
+            console.table("type - coursesTaught = " + typeof(coursesTaught));
+            console.table("semesters = " + coursesTaught[1]);*/
+            return coursesTaught;
+        } else {
+            console.log("Fired - lowerProfName .localCompare lowerProfessorName != 0 ");
+        }
+    })   
+    return coursesTaught;
+     /* Should not get here */
+        /* Means that the name entered is not present in the dataset */
+        console.log("John's Error - getSpecificProfessorCourses - Should not get here");
+}
+
+function parseCoursesString(coursesTaughtRaw) {
+    console.log("Entered - parseCourseString");
+
+    let courseidList = [];
+    let semesteridList = [];
+    let curString = coursesTaughtRaw;
+
+    while (curString.length > 3) { // the last part of the string would be left as '}]' (2) 
+        const firstQuote = curString.indexOf("\"");
+        //console.log("first quote pos = " + firstQuote);
+
+        const secondQuote = curString.indexOf("\"", firstQuote + 1);
+        //console.log("second quote pos = " + secondQuote);
+
+        const thirdQuote = curString.indexOf("\"", secondQuote + 1);
+        //console.log("third quote pos = " + thirdQuote);
+
+        const fourthQuote = curString.indexOf("\"", thirdQuote + 1);
+        //console.log("fourth quote pos = " + fourthQuote);
+
+        const fifthQuote = curString.indexOf("\"", fourthQuote + 1);
+        //console.log("fifth quote pos = " + fifthQuote);
+
+        const sixthQuote = curString.indexOf("\"", fifthQuote + 1);
+        //console.log("sixth quote pos = " + sixthQuote);
+
+        const seventhQuote = curString.indexOf("\"", sixthQuote + 1);
+        //console.log("seventh quote pos = " + seventhQuote);
+
+        const eighthQuote = curString.indexOf("\"", seventhQuote + 1);
+        //console.log("eighth quote pos = " + eighthQuote);
+        
+        courseidList[courseidList.length] = curString.substring(thirdQuote +1, fourthQuote);
+        semesteridList[semesteridList.length] = curString.substring(seventhQuote + 1, eighthQuote);
+
+        curString = curString.substring(eighthQuote + 1);
+        //console.log("curString = " + curString);
+
+    }
+    return [courseidList,semesteridList];
+}
+
+/* Takes a numeric representation of semesterID (String) and returns a formatted String */
+function formatSemesterID(semesteridList) {
+    console.log("Entered - formatSemesterID");
+
+    const spring = "Spring"; // 01
+    const summer = "Summer"; // 05
+    const fall = "Fall"; // 08
+
+    let semesteridListFormatted = [];
+
+    semesteridList.forEach((id)=> {
+        const year = id.substring(0,4);
+        const termNumeric = id.substring(4);
+        
+        if (termNumeric.localeCompare("01") == 0) {
+            semesteridListFormatted[semesteridListFormatted.length] = spring.concat(" ", year);
+        } else if (termNumeric.localeCompare("05") == 0) {
+            semesteridListFormatted[semesteridListFormatted.length] = summer.concat(" ", year);
+        } else if (termNumeric.localeCompare("08") == 0) {
+            semesteridListFormatted[semesteridListFormatted.length] = fall.concat(" ", year);
+        } else {
+            console.log("Error - the forEach loop in formatSemesterID - termNumeric should be 01, 05, or 08 - Seeing this means termNumeric was not one of the previous values")
+        }
+       // console.log("example - year = " + year + " -- termNumeric = " + termNumeric);
+    })
+    return semesteridListFormatted;
+}
+
+function countCoursesPerSemester(semesteridListFormatted) {
+    console.log("Entered - countCoursesPerSemester");
+
+    let dataPointsUnformatted = [{
+        term: "",
+        count: ""
+    }];
+
+    semesteridListFormatted.forEach((id)=> {
+        if (dataPointsUnformatted.some(temp => temp.term === id)) {
+            
+            const index = dataPointsUnformatted.findIndex(obj => obj.term === id);
+
+            const oldCount = Object.getOwnPropertyDescriptor(dataPointsUnformatted, "count");
+           
+            dataPointsUnformatted[index].count = oldCount +1;
+        } else {
+            dataPointsUnformatted[dataPointsUnformatted.length] = {term: id, count: 1};
+        }
+    })
+    console.log("i am here");
+    console.table(dataPointsUnformatted);
+}
+
+/* A primary function */
+function displayProfessorCoursesChart(professorName, professorsListGeneral) {
+    console.log("Entered - displayProfessorCoursesChart");
+
+    const taughtSeparated = getSpecificProfessorCourses(professorName, professorsListGeneral);
+    console.log("taughtSeparated is " + taughtSeparated);
+    console.table(taughtSeparated);
+
+    const courseidList = taughtSeparated[0];
+    const semesteridList = taughtSeparated[1];
+
+    const semesteridListFormatted = formatSemesterID(semesteridList);
+    console.table("example - semesteridListFormatted = " + semesteridListFormatted);
+
+    const coursesPerSemester = countCoursesPerSemester(semesteridListFormatted);
+    
+    
+}
+
+function clearChart(chart) {
+    chart.options.data[0].dataPoints.length = 0;
+        chart.render();
+}
+
 async function mainEvent() {
     const mainForm = document.querySelector(".main_form");
     
     const initializeButton = document.querySelector("#initialize_button");
-
+    
+    const courseRefreshButton = document.querySelector("#course_refresh");
+    const departmentRefreshButton = document.querySelector("#department_refresh");
+    const professorRefreshButton = document.querySelector("#professor_refresh");
+    
     const headerCourseButton = document.querySelector("#h_course");
     const headerDepartmentButton = document.querySelector("#h_department");
     const headerProfessorButton = document.querySelector("#h_professor");
@@ -24,24 +178,111 @@ async function mainEvent() {
     const professorCoursesCheckbox = document.querySelector("#professor_courses_checkbox");
     const professorDepartmentCheckbox = document.querySelector("#professor_department_checkbox");
 
+    const courseNameTextfield = document.querySelector("#course_name_textfield");
+    const departmentNameTextfield = document.querySelector("#department_name_textfield");
+    const professorNameTextfield = document.querySelector("#professor_name_textfield");
+
+    const displaySectionBox = document.querySelector("#display_section_box");
+
+    var chart;
+    let emptyArray = [];
+    let professorsListGeneral = [];
+    let semestersListGeneral = [];
     
+    /* Makes the chart in the background on page load */
+    window.onload = function () {
+
+        chart = new CanvasJS.Chart("chartContainer", {
+            animationEnabled: true,
+            theme: "light2",
+            title:{
+                text: "Simple Line Chart"
+            },
+            data: [{        
+                type: "line",
+                dataPoints: []
+            }]
+        });
+        chart.render();
+    }
 
     /* Initialize the main_form to allow for event listeners */
-    initializeButton.addEventListener("click", async (submitEvent) => {
+    initializeButton.addEventListener("click", async (submitEvent)=> {
         console.log("Fired - initialize button");
 
+        /* Loading list of professors */
         console.log("Fired - loading professor - a list of all professors");
-        const professorsListRaw = await fetch (
-            "https://api.umd.io/v1/professors", {mode:"cors"}
+        const professorsListRaw = await fetch ( 
+            "https://api.umd.io/v1/professors"
         );
-       
-        const generalFormRaw = await fetch (
+        professorsListGeneral = await professorsListRaw.json();
+     
+
+        /* Loading list of semesters */
+        console.log("Fired - loading semesters - a list of all semesters");
+        const semestersListRaw = await fetch (
+            "https://api.umd.io/v1/courses/semesters"
+        );
+        semestersListGeneral = await semestersListRaw.json();
+
+
+        /* Loading list of courses */
+        /*
+        console.log("Fired - loading courses - a list of all courses");
+        const courseListRaw = await fetch (
             "https://api.umd.io/v1/"
-        );
+        )*/
+         
+       /*
+        const generalFormRaw = await fetch ("https://api.umd.io/v1", {
+        });
+        console.log("got generalFormRaw data: ");
+       
+        console.log("getting generalForm data: ");
+        console.table(generalFormRaw);
+
         const generalForm = await generalFormRaw.json();
         console.log("got generalForm data: ");
         console.table(generalForm);
 
+        console.log("generalForm index 0 data: ");
+        console.table(generalForm[1]);
+*/
+    })
+
+    /* Primary Logic Flow */
+    /* The Real Main Event */
+    
+    courseRefreshButton.addEventListener("click", (event)=> {
+        console.log("Fired - Clicked course_refresh button");
+
+        /* Fill in later */
+    })
+
+    departmentRefreshButton.addEventListener("click", (event)=> {
+        console.log("Fired - Clicked department_refresh button");
+
+        /* Fill in later */
+    })
+
+    professorRefreshButton.addEventListener("click", (event)=> {
+        console.log("Fired - Clicked professor_refresh button");
+        const professorName = professorNameTextfield.value;
+
+        if (professorCoursesCheckbox.checked) {
+            console.log("Stepped into - professor_courses_checkbox is checked");
+            displaySectionBox.classList.remove("hidden");
+            
+            console.log("Entering - displayProfessorCoursesChart with " + professorName);
+            displayProfessorCoursesChart(professorName, professorsListGeneral);
+        } else if (professorDepartmentCheckbox.checked) {
+            console.log("Stepped into - professor_department_checkbox is checked");
+            /* Will add next */
+        } else {
+            console.log("No Step - no filter boxes are checked");
+
+            /* need to fill in with a prompt that tells the user to check a filter box */
+        }
     })
 
 /* Checkbox Event Listeners - Professor Tab */
