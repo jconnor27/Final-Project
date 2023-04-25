@@ -7,7 +7,16 @@ function injectHTMLCurrentProfessorsList(list) {
       const str = `<li>${item}</li>`;
       target.innerHTML += str;
     });
-  }
+}
+
+/* A quick filter that will return something based on a matching input */
+function filterList(list, query) {
+    return list.filter((item) => {
+      const lowerCaseName = item.toLowerCase();
+      const lowerCaseQuery = query.toLowerCase();
+      return lowerCaseName.includes(lowerCaseQuery);
+    });
+}
 
 /* Takes in the raw /get professors data and returns a list of 
 the names of all professors */
@@ -216,10 +225,10 @@ function displayProfessorCoursesChart(
 }
 
 /* The list for when no image is displayed */
-function displayBigProfessorsList(professorsListGeneral) {
+function getBigProfessorsList(professorsListGeneral) {
     const allProfessorNames = getListProfessorNames(professorsListGeneral);
-
-    injectHTMLCurrentProfessorsList(allProfessorNames.slice(0, 20));
+    const bigList = allProfessorNames.slice(0, 20);
+    return bigList;
 }
 
 function clearChart(chart) {
@@ -268,6 +277,8 @@ async function mainEvent() {
   let emptyArray = [];
   let professorsListGeneral = [];
   let semestersListGeneral = [];
+  let storedProfessorsList = [];
+
 
   /* Makes the chart in the background on page load */
   window.onload = function () {
@@ -366,6 +377,24 @@ async function mainEvent() {
       /* need to fill in with a prompt that tells the user to check a filter box */
     }
   });
+
+/* Textfield Event Listeners */
+professorNameTextfield.addEventListener("input", (event) => {
+    console.log("Input - professorNameTextfield - " + event.target.value);
+
+    const allNames = getListProfessorNames(professorsListGeneral)
+    const newList = filterList(allNames, event.target.value);
+
+    let trimmedList = [];
+
+    if (displaySectionBox.classList.contains("hidden")) {
+        trimmedList = newList.slice(0,20);
+    } else {
+        trimmedList = newList.slice(0,10);
+    }
+    injectHTMLCurrentProfessorsList(trimmedList);
+
+});
 
   /* Checkbox Event Listeners - Professor Tab */
   professorCoursesCheckbox.addEventListener("change", (event) => {
@@ -554,7 +583,8 @@ async function mainEvent() {
     if (professorsListGeneral.length > 0) {
         initialBox.classList.add("hidden");
         console.log("i ended here");
-        displayBigProfessorsList(professorsListGeneral);
+        storedProfessorsList = getBigProfessorsList(professorsListGeneral);
+        injectHTMLCurrentProfessorsList(storedProfessorsList);
 
       if (filterCourseSection.classList.contains("hidden") != true) {
         filterCourseSection.classList.add("hidden");
