@@ -10,120 +10,245 @@
   </head>
   <body>
     <div class="wrapper">
-      <form action="https://api.umd.io/v1" 
-      class ="main_form_box main_form">
-      <!-- Top Filter Buttons -->
-      <header class="header h1">
-        <div class="hTopBox">
-          <div class="whiteBox bigBoldText">Search By:</div>
-        </div>
-        <div class="hBottomBoxContainer">
-        <div class="hBottomBox">
-          <button type="button" class="hButton" id="h_course">Course</button>
-          <button type="button" class="hButton" id="h_department">Department</button>
-          <button type="button" class="hButton" id="h_professor">Professor</button>
-        </div>
-        </div>
-      </header>
-
-      <!-- Initial Screen -->
-      <div class ="initialBox">
-        <div>
-          For demo purposes, click initialize Data, then the professor tab. 
-          Enter "aaron finkle" and click the "Courses" check box. 
-          Then click refresh for best result.
-        </div>
-      <button type="button"  id="initialize_button">Initialize Data</button>
-      </div>
-
-      <!-- Filter Boxes -->
-      <div class="conatiner">
-      <div class="filterBoxContainer">
-        <!-- Filter by Course box -->
-        <div class="filterSection hidden" id="filter_course_box">
-          <div class="filterBoxGold bigBoldText">
-            <u>Course</u>
+      <form action="https://api.umd.io/v1" class="main_form_box main_form">
+        <!-- Top Filter Buttons -->
+        <header class="header h1">
+          <div class="hTopBox">
+            <div class="whiteBox bigBoldText">Search By:</div>
           </div>
-          <div class="filterNameBox">
-            <label for="course_name_textfield" class="nameTextfieldLabel">Name:</label>
-            <input type="text" class="filterNameTextfield" id="course_name_textfield" name="courseNameTextfield"/>
-          </div>
-          <div class="filterByBoxGold bigText">
-            Filter By:
-            <button type="button" class="refreshButton" id="course_refresh">Refresh</button>
-          </div>
-          <div class="filterBoxWhite">
-            <input type="checkbox" class="filterByCheckbox" id="course_department_checkbox" name="courseDepartment"/>
-            <label for="course_department_checkbox" class="filterTextfieldLabel">Department</label>
-          </div>
-          <div class="filterBoxWhite">
-            <input type="checkbox" class="filterByCheckbox" id="course_professor_checkbox" name="courseProfessor"/>
-            <label for="f_course_professor" class="filterTextfieldLabel">Professor</label>
-          </div>
-        </div>
-        <!-- Filter by Department box -->
-        <div class="filterSection hidden" id="filter_department_box">
-          <div class="filterBoxGold bigBoldText">
-            <u>Department</u>
-          </div>
-          <div class="filterNameBox">
-            <label for="department_name_textfield" class="nameTextfieldLabel">Name:</label>
-            <input type="text" class="filterNameTextfield" id="department_name_textfield" name="departmentNameTextfield"/>
-          </div>
-          <div class="filterByBoxGold bigText">
-            Filter By:
-            <button type="button" class="refreshButton" id="department_refresh">
-              Refresh
-            </button>
-          </div>
-          <div class="filterBoxWhite">
-            <input type="checkbox" class="filterByCheckbox" id="department_course_checkbox" name="departmentCourse"/>
-              <label for="department_course_checkbox" class="filterTextfieldLabel">Course</label>
-          </div>
-          <div class="filterBoxWhite">
-            <input type="checkbox" class="filterByCheckbox" id="department_professor_checkbox" name="departmentProfessor" value="0"/>
-            <label for="department_professor_checkbox" class="filterTextfieldLabel">Professor</label>
-          </div>
-          <!-- When "Professor" box is clicked, this box comes up -->
-          <div class="filterSubBoxWhite hidden" id="filter_department_professor_box">
-            <div class="filterSubBoxContainer">
-              <input type="checkbox" class="filterBySubCheckbox" id="department_professor_semesters_checkbox" name="departmentProfessorSemesters"/>
-              <label for="department_professor_semesters_checkbox" class="filterSubTextfieldLabel">Semesters With Department</label>
-            </div>
-            <div class="filterSubBoxContainer">
-              <input type="checkbox" class="filterBySubCheckbox" id="department_professor_number_checkbox" name="departmentProfessorNumber"/>
-              <label for="department_professor_number_checkbox" class="filterSubTextfieldLabel">Number of Classes Teaching</label>
+          <div class="hBottomBoxContainer">
+            <div class="hBottomBox">
+              <button type="button" class="hButton" id="h_course">
+                Course
+              </button>
+              <button type="button" class="hButton" id="h_department">
+                Department
+              </button>
+              <button type="button" class="hButton" id="h_professor">
+                Professor
+              </button>
             </div>
           </div>
+        </header>
+
+        <!-- Filter Boxes -->
+        <div class="container">
+          <div class="filterBoxContainer">
+            <!-- Filter by Course box -->
+            <div class="filterSection hidden" id="filter_course_box">
+              <div class="filterBoxGold bigBoldText">
+                <u>Course</u>
+              </div>
+              <div class="filterNameBox">
+                <label for="course_name_textfield" class="nameTextfieldLabel"
+                  >Name:</label
+                >
+                <input
+                  type="text"
+                  class="filterNameTextfield"
+                  id="course_name_textfield"
+                  name="courseNameTextfield"
+                />
+              </div>
+              <div class="filterByBoxGold bigText">
+                Filter By:
+                <button type="button" class="refreshButton" id="course_refresh">
+                  Refresh
+                </button>
+              </div>
+              <div class="filterBoxWhite">
+                <input
+                  type="checkbox"
+                  class="filterByCheckbox"
+                  id="course_department_checkbox"
+                  name="courseDepartment"
+                />
+                <label
+                  for="course_department_checkbox"
+                  class="filterTextfieldLabel"
+                  >Department</label
+                >
+              </div>
+              <div class="filterBoxWhite">
+                <input
+                  type="checkbox"
+                  class="filterByCheckbox"
+                  id="course_professor_checkbox"
+                  name="courseProfessor"
+                />
+                <label for="f_course_professor" class="filterTextfieldLabel"
+                  >Professor</label
+                >
+              </div>
+            </div>
+            <!-- Filter by Department box -->
+            <div class="filterSection hidden" id="filter_department_box">
+              <div class="filterBoxGold bigBoldText">
+                <u>Department</u>
+              </div>
+              <div class="filterNameBox">
+                <label
+                  for="department_name_textfield"
+                  class="nameTextfieldLabel"
+                  >Name:</label
+                >
+                <input
+                  type="text"
+                  class="filterNameTextfield"
+                  id="department_name_textfield"
+                  name="departmentNameTextfield"
+                />
+              </div>
+              <div class="filterByBoxGold bigText">
+                Filter By:
+                <button
+                  type="button"
+                  class="refreshButton"
+                  id="department_refresh"
+                >
+                  Refresh
+                </button>
+              </div>
+              <div class="filterBoxWhite">
+                <input
+                  type="checkbox"
+                  class="filterByCheckbox"
+                  id="department_course_checkbox"
+                  name="departmentCourse"
+                />
+                <label
+                  for="department_course_checkbox"
+                  class="filterTextfieldLabel"
+                  >Course</label
+                >
+              </div>
+              <div class="filterBoxWhite">
+                <input
+                  type="checkbox"
+                  class="filterByCheckbox"
+                  id="department_professor_checkbox"
+                  name="departmentProfessor"
+                  value="0"
+                />
+                <label
+                  for="department_professor_checkbox"
+                  class="filterTextfieldLabel"
+                  >Professor</label
+                >
+              </div>
+              <!-- When "Professor" box is clicked, this box comes up -->
+              <div
+                class="filterSubBoxWhite hidden"
+                id="filter_department_professor_box"
+              >
+                <div class="filterSubBoxContainer">
+                  <input
+                    type="checkbox"
+                    class="filterBySubCheckbox"
+                    id="department_professor_semesters_checkbox"
+                    name="departmentProfessorSemesters"
+                  />
+                  <label
+                    for="department_professor_semesters_checkbox"
+                    class="filterSubTextfieldLabel"
+                    >Semesters With Department</label
+                  >
+                </div>
+                <div class="filterSubBoxContainer">
+                  <input
+                    type="checkbox"
+                    class="filterBySubCheckbox"
+                    id="department_professor_number_checkbox"
+                    name="departmentProfessorNumber"
+                  />
+                  <label
+                    for="department_professor_number_checkbox"
+                    class="filterSubTextfieldLabel"
+                    >Number of Classes Teaching</label
+                  >
+                </div>
+              </div>
+            </div>
+            <!-- Filter by Professor box -->
+            <div class="filterSection hidden" id="filter_professor_box">
+              <div class="filterBoxGold bigBoldText">
+                <u>Professor Name</u>
+              </div>
+              <div class="filterNameBox">
+                <label for="professor_name_textfield" class="nameTextfieldLabel"
+                  >Name:</label
+                >
+                <input
+                  type="text"
+                  class="filterNameTextfield"
+                  id="professor_name_textfield"
+                  name="professorNameTextfield"
+                />
+              </div>
+              <div class="filterByBoxGold bigText">
+                Filter By:
+                <button
+                  type="button"
+                  class="refreshButton"
+                  id="professor_refresh"
+                >
+                  Refresh
+                </button>
+              </div>
+              <div class="filterBoxWhite">
+                <input
+                  type="checkbox"
+                  class="filterByCheckbox"
+                  id="professor_courses_checkbox"
+                  name="professorCourses"
+                />
+                <label
+                  for="professor_courses_checkbox"
+                  class="filterTextfieldLabel"
+                  >Courses</label
+                >
+              </div>
+              <div class="filterBoxWhite">
+                <input
+                  type="checkbox"
+                  class="filterByCheckbox"
+                  id="professor_department_checkbox"
+                  name="professorDepartment"
+                />
+                <label
+                  for="professor_department_checkbox"
+                  class="filterTextfieldLabel"
+                  >Department</label
+                >
+              </div>
+            </div>
+          </div>
+          <div class="rightSideContainer">
+            <ol class="box" id="current_professors_list">
+              <!-- Initial Screen -->
+              <div class="initialBox" id="initial_box">
+                <div>
+                  For demo purposes, click initialize Data 
+                  (if you cannot see a button, the data is loaded), 
+                  then the professor tab. Enter "aaron finkle" and 
+                  click the "Courses" check box. Then click refresh 
+                  for best result.
+                </div>
+                <button type="button" id="initialize_button">
+                  Initialize Data
+                </button>
+              </div>
+            </ol>
+            <div class="displaySection hidden" id="display_section_box">
+              <div
+                class="chartContainer"
+                id="chartContainer"
+                style="height: 300px; width: 100%"
+              ></div>
+            </div>
+          </div>
         </div>
-        <!-- Filter by Professor box -->
-        <div class="filterSection hidden" id="filter_professor_box">
-          <div class="filterBoxGold bigBoldText">
-            <u>Professor Name</u>
-          </div>
-          <div class="filterNameBox">
-            <label for="professor_name_textfield" class="nameTextfieldLabel">Name:</label>
-            <input type="text" class="filterNameTextfield" id="professor_name_textfield" name="professorNameTextfield" />
-          </div>
-          <div class="filterByBoxGold bigText">
-            Filter By:
-            <button type="button" class="refreshButton" id="professor_refresh">Refresh</button>
-          </div>
-          <div class="filterBoxWhite">
-            <input type="checkbox" class="filterByCheckbox" id="professor_courses_checkbox" name="professorCourses"/>
-            <label for="professor_courses_checkbox" class="filterTextfieldLabel">Courses</label>
-          </div>
-          <div class="filterBoxWhite">
-            <input type="checkbox" class="filterByCheckbox" id="professor_department_checkbox" name="professorDepartment"/>
-            <label for="professor_department_checkbox" class="filterTextfieldLabel">Department</label>
-          </div>
-        </div>
-      </div>
-        <div class="displaySection hidden" id="display_section_box">
-          <div id="chartContainer" style="height: 300px; width: 100%;"></div>
-        </div>
-      </div>
-    </form>
+      </form>
     </div>
     <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
     <script src="./script.js"></script>
