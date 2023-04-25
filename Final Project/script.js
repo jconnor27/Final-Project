@@ -104,43 +104,56 @@ function formatSemesterID(semesteridList) {
 function countCoursesPerSemester(semesteridListFormatted) {
     console.log("Entered - countCoursesPerSemester");
 
-    let dataPointsUnformatted = [{
-        term: "",
-        count: ""
-    }];
+    let dataPointsUnformatted = [];
 
     semesteridListFormatted.forEach((id)=> {
         if (dataPointsUnformatted.some(temp => temp.term === id)) {
-            
             const index = dataPointsUnformatted.findIndex(obj => obj.term === id);
-
-            const oldCount = Object.getOwnPropertyDescriptor(dataPointsUnformatted, "count");
-           
+            const oldCount = dataPointsUnformatted[index].count;
             dataPointsUnformatted[index].count = oldCount +1;
         } else {
             dataPointsUnformatted[dataPointsUnformatted.length] = {term: id, count: 1};
         }
     })
-    console.log("i am here");
-    console.table(dataPointsUnformatted);
+    return dataPointsUnformatted;
+}
+
+function convertToDataPoints(rawData) {
+    console.log("Entered - convertToDataPoints");
+
+    let dataPoints = [];
+
+    rawData.forEach((pair)=> {
+        dataPoints[dataPoints.length] = {
+            y: pair.count,
+            label: pair.term
+        }
+    })
+    return dataPoints;
 }
 
 /* A primary function */
-function displayProfessorCoursesChart(professorName, professorsListGeneral) {
+function displayProfessorCoursesChart(professorName, professorsListGeneral, chart) {
     console.log("Entered - displayProfessorCoursesChart");
 
     const taughtSeparated = getSpecificProfessorCourses(professorName, professorsListGeneral);
-    console.log("taughtSeparated is " + taughtSeparated);
     console.table(taughtSeparated);
 
     const courseidList = taughtSeparated[0];
     const semesteridList = taughtSeparated[1];
 
     const semesteridListFormatted = formatSemesterID(semesteridList);
-    console.table("example - semesteridListFormatted = " + semesteridListFormatted);
 
     const coursesPerSemester = countCoursesPerSemester(semesteridListFormatted);
+    const coursesPerSemesterDataPoints = convertToDataPoints(coursesPerSemester);
     
+    chart.options.data[0].dataPoints = coursesPerSemesterDataPoints;
+    chart.title.set("text", ("Line Chart For Courses Taught By: ").concat(professorName));
+    chart.options.axisY.title = "Number Of Courses Taught";
+    chart.render();
+
+    console.log("I am here");
+    console.log(coursesPerSemesterDataPoints);
     
 }
 
@@ -149,7 +162,10 @@ function clearChart(chart) {
         chart.render();
 }
 
+
+
 async function mainEvent() {
+    
     const mainForm = document.querySelector(".main_form");
     
     const initializeButton = document.querySelector("#initialize_button");
@@ -183,6 +199,7 @@ async function mainEvent() {
     const professorNameTextfield = document.querySelector("#professor_name_textfield");
 
     const displaySectionBox = document.querySelector("#display_section_box");
+    
 
     var chart;
     let emptyArray = [];
@@ -197,6 +214,11 @@ async function mainEvent() {
             theme: "light2",
             title:{
                 text: "Simple Line Chart"
+            },
+            axisY:{
+                title: "Y-Axis Title",
+                interlacedColor: "#F8F1E4",
+                ticklength: 10
             },
             data: [{        
                 type: "line",
@@ -273,8 +295,7 @@ async function mainEvent() {
             console.log("Stepped into - professor_courses_checkbox is checked");
             displaySectionBox.classList.remove("hidden");
             
-            console.log("Entering - displayProfessorCoursesChart with " + professorName);
-            displayProfessorCoursesChart(professorName, professorsListGeneral);
+            displayProfessorCoursesChart(professorName, professorsListGeneral, chart);
         } else if (professorDepartmentCheckbox.checked) {
             console.log("Stepped into - professor_department_checkbox is checked");
             /* Will add next */
