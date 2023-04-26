@@ -48,7 +48,6 @@ function getSpecificProfessorCourses(professorName, professorsListGeneral) {
       );
 
       const coursesTaughtRaw = JSON.stringify(prof["taught"]);
-      console.log("Value - taught stringigyed = " + coursesTaughtRaw);
 
       coursesTaught = parseCoursesString(coursesTaughtRaw);
       /* console.table("value - coursesTaught = " + coursesTaught);
@@ -176,7 +175,7 @@ function countCoursesPerSemester(semesteridListFormatted) {
   return dataPointsUnformatted;
 }
 
-function convertToDataPoints(rawData) {
+function convertToDataPointsProfessorCourses(rawData) {
   console.log("Entered - convertToDataPoints");
   let dataPoints = [];
 
@@ -189,7 +188,74 @@ function convertToDataPoints(rawData) {
   return dataPoints;
 }
 
-/* A primary function */
+function convertToDataPointsProfessorDepartments(rawData) {
+    console.log("Entered - convertToDataPoints");
+    let dataPoints = [];
+  
+    rawData.forEach((pair) => {
+      dataPoints[dataPoints.length] = {
+        y: pair.count,
+        label: pair.department,
+      };
+    });
+    return dataPoints;
+  }
+
+function trimCourseNumber(courseidList) {
+    console.log("Entered - trimCourseNumber");
+
+    let courseidListTrimmed = [];
+
+    courseidList.forEach((course) => {
+        courseidListTrimmed[courseidListTrimmed.length] = course.substring(0, 4);
+    })
+    return courseidListTrimmed;
+}
+
+function countDepartments(courseidListTrimmed) {
+    console.log("Entered - countDepartments");
+
+    let dataPointsUnformatted = []
+
+    courseidListTrimmed.forEach((courseid) => {
+        if (dataPointsUnformatted.some((temp) => temp.department === courseid)) {
+            const index = dataPointsUnformatted.findIndex((obj) => obj.department === courseid);
+            const oldCount = dataPointsUnformatted[index].count;
+            dataPointsUnformatted[index].count = oldCount + 1;
+        } else {
+            dataPointsUnformatted[dataPointsUnformatted.length] = {
+                department: courseid,
+                count: 1,
+            };
+        }
+           
+    });
+    return dataPointsUnformatted;
+}
+
+function displayProfessorDepartmentChart(professorName, professorListGeneral, chart) {
+    console.log("Entered - displayProfessorDepartmentChart");
+
+    const taughtSeparated = getSpecificProfessorCourses(professorName, professorListGeneral);
+    const courseidListRaw = taughtSeparated[0];
+    const courseidListTrimmed = trimCourseNumber(courseidListRaw);
+    const departmentsRaw = countDepartments(courseidListTrimmed);
+    const departmentsDataPoints = convertToDataPointsProfessorDepartments(departmentsRaw);
+    
+    chart.options.data[0].type = "pie";
+    chart.options.data[0].indexLabel = "{label}: #percent%";
+    chart.options.data[0].dataPoints = departmentsDataPoints;
+    chart.title.set(
+      "text",
+      "Pie Chart For The Departments of Courses Taught By: ".concat(professorName)
+    );
+    chart.render();
+
+    console.log("lll");
+    console.log(departmentsDataPoints);
+
+}
+
 function displayProfessorCoursesChart(professorName, professorsListGeneral, chart) {
   console.log("Entered - displayProfessorCoursesChart");
 
@@ -202,7 +268,7 @@ function displayProfessorCoursesChart(professorName, professorsListGeneral, char
   const semesteridListFormatted = formatSemesterID(semesteridList);
 
   const coursesPerSemester = countCoursesPerSemester(semesteridListFormatted);
-  const coursesPerSemesterDataPoints = convertToDataPoints(coursesPerSemester);
+  const coursesPerSemesterDataPoints = convertToDataPointsProfessorCourses(coursesPerSemester);
 
     console.table(coursesPerSemesterDataPoints);
     console.table(chart.options.data[0].dataPoints);
@@ -214,9 +280,6 @@ function displayProfessorCoursesChart(professorName, professorsListGeneral, char
   );
   chart.options.axisY.title = "Number Of Courses Taught";
   chart.render();
-
-  console.log("I am here");
-  console.log(coursesPerSemesterDataPoints);
 }
 
 /* The list for when no image is displayed */
@@ -382,16 +445,14 @@ async function mainEvent() {
 
     if (professorCoursesCheckbox.checked) {
       console.log("Stepped into - professor_courses_checkbox is checked");
+     
       displaySectionBox.classList.remove("hidden");
-
-      console.log("debugging here");
-      console.log("Chart =");
-      console.table(chart);
-
       displayProfessorCoursesChart(professorName, professorsListGeneral, chart);
     } else if (professorDepartmentCheckbox.checked) {
       console.log("Stepped into - professor_department_checkbox is checked");
-      /* Will add next */
+      
+      displaySectionBox.classList.remove("hidden");
+      displayProfessorDepartmentChart(professorName, professorsListGeneral, chart); 
     } else {
       console.log("No Step - no filter boxes are checked");
 
