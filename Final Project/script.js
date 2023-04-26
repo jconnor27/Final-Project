@@ -178,7 +178,6 @@ function countCoursesPerSemester(semesteridListFormatted) {
 
 function convertToDataPoints(rawData) {
   console.log("Entered - convertToDataPoints");
-
   let dataPoints = [];
 
   rawData.forEach((pair) => {
@@ -191,17 +190,10 @@ function convertToDataPoints(rawData) {
 }
 
 /* A primary function */
-function displayProfessorCoursesChart(
-  professorName,
-  professorsListGeneral,
-  chart
-) {
+function displayProfessorCoursesChart(professorName, professorsListGeneral, chart) {
   console.log("Entered - displayProfessorCoursesChart");
 
-  const taughtSeparated = getSpecificProfessorCourses(
-    professorName,
-    professorsListGeneral
-  );
+  const taughtSeparated = getSpecificProfessorCourses(professorName, professorsListGeneral);
   console.table(taughtSeparated);
 
   const courseidList = taughtSeparated[0];
@@ -211,6 +203,9 @@ function displayProfessorCoursesChart(
 
   const coursesPerSemester = countCoursesPerSemester(semesteridListFormatted);
   const coursesPerSemesterDataPoints = convertToDataPoints(coursesPerSemester);
+
+    console.table(coursesPerSemesterDataPoints);
+    console.table(chart.options.data[0].dataPoints);
 
   chart.options.data[0].dataPoints = coursesPerSemesterDataPoints;
   chart.title.set(
@@ -239,11 +234,12 @@ function clearChart(chart) {
 async function mainEvent() {
   const mainForm = document.querySelector(".main_form");
 
-  const initializeButton = document.querySelector("#initialize_button");
+  const initializeDataButton = document.querySelector("#initialize_data_button");
+  const clearLocalStorageButton = document.querySelector("#clear_local_storage_button");
 
-  const courseRefreshButton = document.querySelector("#course_refresh");
-  const departmentRefreshButton = document.querySelector("#department_refresh");
-  const professorRefreshButton = document.querySelector("#professor_refresh");
+  const courseCreateImageButton = document.querySelector("#course_create_image_button");
+  const departmentCreateImageButton = document.querySelector("#department_create_image_button");
+  const professorCreateImageButton = document.querySelector("#professor_create_image_button");
 
   const headerCourseButton = document.querySelector("#h_course");
   const headerDepartmentButton = document.querySelector("#h_department");
@@ -270,15 +266,31 @@ async function mainEvent() {
   const professorNameTextfield = document.querySelector("#professor_name_textfield");
 
   const displaySectionBox = document.querySelector("#display_section_box");
-  const initialBox = document.querySelector("#initial_box");
+  const initialBoxDataUnloaded = document.querySelector("#initial_box_data_unloaded");
+  const initialBoxDataLoaded = document.querySelector("#initial_box_data_loaded");
+
+  const professorsListLabel = document.querySelector("#professors_list_label");
+  
   const currentProfessorsList = document.querySelector("#current_professors_list");
 
   var chart;
   let emptyArray = [];
-  let professorsListGeneral = [];
   let semestersListGeneral = [];
   let storedProfessorsList = [];
+  let professorsListGeneral = [];
 
+  const tempProfessorsListGeneral = localStorage.getItem('professorsListGeneral');
+  let parsedTemp = JSON.parse(tempProfessorsListGeneral);
+
+  if (parsedTemp?.length > 0) {
+    console.log("Loaded - professorsListGeneral was loaded from localStorage");
+    professorsListGeneral = parsedTemp;
+    initialBoxDataUnloaded.classList.add("hidden");
+    initialBoxDataLoaded.classList.remove("hidden");
+  } else {
+    clearLocalStorageButton.classList.add("hidden");
+    initialBoxDataLoaded.classList.add("hidden");
+  }
 
   /* Makes the chart in the background on page load */
   window.onload = function () {
@@ -304,13 +316,15 @@ async function mainEvent() {
   };
 
   /* Initialize the main_form to allow for event listeners */
-  initializeButton.addEventListener("click", async (submitEvent) => {
+  initializeDataButton.addEventListener("click", async (submitEvent) => {
     console.log("Fired - initialize button");
 
     /* Loading list of professors */
     console.log("Fired - loading professor - a list of all professors");
     const professorsListRaw = await fetch("https://api.umd.io/v1/professors");
     professorsListGeneral = await professorsListRaw.json();
+    localStorage.setItem('professorsListGeneral', JSON.stringify(professorsListGeneral));
+
 
     /* Loading list of semesters */
     console.log("Fired - loading semesters - a list of all semesters");
@@ -341,31 +355,38 @@ async function mainEvent() {
         console.log("generalForm index 0 data: ");
         console.table(generalForm[1]);
 */
-        initializeButton.classList.add("hidden");
+        initializeDataButton.classList.add("hidden");
+        initialBoxDataUnloaded.classList.add("hidden");
+        initialBoxDataLoaded.classList.remove("hidden");
+        clearLocalStorageButton.classList.remove("hidden");
   });
 
   /* Primary Logic Flow */
   /* The Real Main Event */
 
-  courseRefreshButton.addEventListener("click", (event) => {
+  courseCreateImageButton.addEventListener("click", (event) => {
     console.log("Fired - Clicked course_refresh button");
 
     /* Fill in later */
   });
 
-  departmentRefreshButton.addEventListener("click", (event) => {
+  departmentCreateImageButton.addEventListener("click", (event) => {
     console.log("Fired - Clicked department_refresh button");
 
     /* Fill in later */
   });
 
-  professorRefreshButton.addEventListener("click", (event) => {
+  professorCreateImageButton.addEventListener("click", (event) => {
     console.log("Fired - Clicked professor_refresh button");
     const professorName = professorNameTextfield.value;
 
     if (professorCoursesCheckbox.checked) {
       console.log("Stepped into - professor_courses_checkbox is checked");
       displaySectionBox.classList.remove("hidden");
+
+      console.log("debugging here");
+      console.log("Chart =");
+      console.table(chart);
 
       displayProfessorCoursesChart(professorName, professorsListGeneral, chart);
     } else if (professorDepartmentCheckbox.checked) {
@@ -579,26 +600,39 @@ professorNameTextfield.addEventListener("input", (event) => {
   /* Set view to search by professor */
   headerProfessorButton.addEventListener("click", (event) => {
     console.log("Fired - Clicked h_professor button");
+
     /* this makes the user load the data before allowing any input */
     if (professorsListGeneral.length > 0) {
-        initialBox.classList.add("hidden");
-        console.log("i ended here");
+        initialBoxDataLoaded.classList.add("hidden");
+        professorsListLabel.classList.remove("hidden");
         storedProfessorsList = getBigProfessorsList(professorsListGeneral);
         injectHTMLCurrentProfessorsList(storedProfessorsList);
 
-      if (filterCourseSection.classList.contains("hidden") != true) {
-        filterCourseSection.classList.add("hidden");
-        headerCourseButton.classList.remove("currentHeaderFilterTab");
-      }
-      if (filterDepartmentSection.classList.contains("hidden") != true) {
-        filterDepartmentSection.classList.add("hidden");
-        headerDepartmentButton.classList.remove("currentHeaderFilterTab");
-      }
-      if (filterProfessorSection.classList.contains("hidden")) {
-        filterProfessorSection.classList.remove("hidden");
-        headerProfessorButton.classList.add("currentHeaderFilterTab");
-      }
+        if (filterCourseSection.classList.contains("hidden") != true) {
+          filterCourseSection.classList.add("hidden");
+          headerCourseButton.classList.remove("currentHeaderFilterTab");
+        }
+        if (filterDepartmentSection.classList.contains("hidden") != true) {
+          filterDepartmentSection.classList.add("hidden");
+          headerDepartmentButton.classList.remove("currentHeaderFilterTab");
+        }
+        if (filterProfessorSection.classList.contains("hidden")) {
+          filterProfessorSection.classList.remove("hidden");
+          headerProfessorButton.classList.add("currentHeaderFilterTab");
+        }
     }
   });
+
+  clearLocalStorageButton.addEventListener("click", (event) => {
+    console.log("Fired - clearLocalStorageButton");
+
+    localStorage.clear();
+    console.log('localStorage Check', localStorage.getItem("professorsListGeneral"));
+
+    initialBoxDataLoaded.classList.add("hidden");
+    initialBoxDataUnloaded.classList.remove("hidden");
+    clearLocalStorageButton.classList.add("hidden");
+    initializeDataButton.classList.remove("hidden");
+  })
 }
 document.addEventListener("DOMContentLoaded", async () => mainEvent()); // the async keyword means we can make API requests
