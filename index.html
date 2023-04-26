@@ -25,6 +25,9 @@
       src="https://kit.fontawesome.com/978cb43e08.js"
       crossorigin="anonymous"
     ></script>
+
+    <link rel="stylesheet" href="style.css" />
+
   </head>
 
   <body>
@@ -33,7 +36,7 @@
           <div class="container">
             <div class="navbar-brand">
               <a href="#home" class="navbar-item">
-                <h2 class="subtitle has-text-light">INST377 John Connors Final Project</h2>
+                <h2 class="subtitle has-text-light">INST377 John Connors Final Project - Home Page</h2>
               </a>
             </div>
           </div>
@@ -46,17 +49,50 @@
             <!-- Main -->
             <div class="block">
               <aside class="menu ml-1">
+                <form
+                  action="https://api.umd.io/v1"
+                  class="box main_form"
+                  >
                 <!-- Menu -->
-                <p>Click "Final Project Page Below" to view the page</p>
-                <div class="menu-label">Final Project Page Heading</div>
-                <ul class="menu-list is-active">
-                  <li><a href="./Final Project/index.html">Final Project Page</a></li>
+                <p><div class="bigBoldText bodyHeading">Welcome to John Connor's Final Project for INST377</div></p>
+                <div class="bodyText">
+                  <p>Data from UMD.IO/V1 is loaded from its REST API.</p>
+                  <p>If the data needs to be loaded, the box below</p>
+                  <p>will contain a button, as well as a similar prompt.</p>
+                  <p>If the data is already loaded, click:</p>
+                  <div class="g1">"Proceed To Final Project Page" (See below)</div>
+                </div>
+                <div class="homePageLoadBox" id="home_page_load_box">
+                  <label for="load_data_button" class="loadDataButton">
+                    <p>Data needs to be loaded.</p>
+                    <p>Click button to load data.</p>
+                  </label>
+                  <button type="button" id="load_data_button">Load Data</button>
+                </div>
+                <div class="homePageDoneLoadingBox hidden" id="home_page_done_loading_box">
+                  <p>Data is loaded.</p>
+                  <p>Click "Proceed To Final Project Page" (below)</p>
+                </div>
+                <div class="statusBoxContainer">
+                <div class="menu-label">Final Project Page Status:</div>
+                <div class="statusBoxNotLoaded" id="status_box_not_loaded">
+                  <div class="r1">Not Ready - Data</div>
+                  <div class="r1">Needs To Be Loaded</div>
+                </div>
+                <div class="statusBoxLoaded hidden" id="status_box_loaded">
+                  <div class="g2">Page Ready</div>
+                </div>
+              </div>
+                <ul class="menu-list is-active hidden" id="final_page_link">
+                  <li><a href="./Final Project/index.html" style="color:green">Proceed To Final Project Page</a></li>
                 </ul>
+              </form>
               </aside>
             </div>
           </div>
         </div>
       </div>
     </section>
+    <script src="./script.js"></script>
   </body>
 </html>

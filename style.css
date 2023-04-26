@@ -1,0 +1,110 @@
+html {
+  background-color: #ffffff;
+  font-size: 16px;
+  min-width: 300px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+
+  /* these are specific to different browsers */
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+
+  font-family: ‘Segoe UI’, Candara, ‘Bitstream Vera Sans’, ‘DejaVu Sans’,
+    ‘Bitsream Vera Sans’, ‘Trebuchet MS’, Verdana, ‘Verdana Ref’, sans-serif;
+  font-weight: 400;
+  line-height: 1.5;
+  background-color: white;
+}
+
+form {
+  accent-color: hsla(120, 100%, 50%, 0.482);
+}
+
+.bigBoldText {
+  font-size: x-large;
+  font-weight: bold;
+}
+
+.bigText {
+  font-size: x-large;
+  padding-left: 1rem;
+}
+
+.g1 {
+    color: green;
+    margin-left: 1rem;
+    margin-top: 1rem;
+}
+
+.g2 {
+    color: green;
+}
+
+.r1 {
+    color: red;
+    font-size: smaller;
+}
+
+.homePageLoadBox {
+  display: flex;
+  margin-left: 3rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  border: 1px solid black;
+  gap: 10px;
+  width: fit-content;
+  padding:1rem;
+}
+
+.homePageDoneLoadingBox {
+    display: flex;
+    margin-left: 3rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    flex-direction: column;
+    border: 1px solid black;
+    width: fit-content;
+    padding: 1rem;
+  }
+
+.statusBoxContainer {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 1rem;
+    gap: 10px;
+}
+
+.statusBoxNotLoaded {
+    border: 2px solid red;
+    padding: .1rem;
+}
+
+.statusBoxLoaded {
+    border: 2px solid green;
+    padding: .1rem;
+}
+
+.bodyHeading {
+    margin-bottom: 1rem;
+}
+
+.bodyText{
+    margin-left: 1rem;
+}
+
+.hidden {
+    display: none;
+  }
+  
+.visible {
+    display: block;
+  }
