@@ -18,15 +18,14 @@
           </div>
           <div class="hBottomBoxContainer">
             <div class="hBottomBox">
-              <button type="button" class="hButton" id="h_course">
-                Course
-              </button>
-              <button type="button" class="hButton" id="h_department">
-                Department
-              </button>
-              <button type="button" class="hButton" id="h_professor">
-                Professor
-              </button>
+              <button type="button" class="hButton" id="h_course">Course</button>
+              <button type="button" class ="hButton currentHeaderFilterTab hidden" id="h_course_current">Course</button>
+
+              <button type="button" class="hButton" id="h_department">Department</button>
+              <button type="button" class="hButton currentHeaderFilterTab hidden" id="h_department_current">Department</button>
+              
+              <button type="button" class="hButton" id="h_professor">Professor</button>
+              <button type="button" class="hButton currentHeaderFilterTab hidden" id="h_professor_current">Professor</button>
             </div>
           </div>
         </header>
@@ -36,49 +35,21 @@
           <div class="filterBoxContainer">
             <!-- Filter by Course box -->
             <div class="filterSection hidden" id="filter_course_box">
-              <div class="filterBoxGold bigBoldText">
-                <u>Course</u>
-              </div>
+              <div class="filterBoxGold bigBoldText"><u>Course</u></div>
               <div class="filterNameBox">
-                <label for="course_name_textfield" class="nameTextfieldLabel"
-                  >Name:</label
-                >
-                <input
-                  type="text"
-                  class="filterNameTextfield"
-                  id="course_name_textfield"
-                  name="courseNameTextfield"
-                />
-              </div>
+                <label for="course_name_textfield" class="nameTextfieldLabel">Name:</label>
+                <input type="text" class="filterNameTextfield" id="course_name_textfield" name="courseNameTextfield"/></div>
               <div class="filterByBoxGold bigText">
                 Filter By:
-                <button type="button" class="createImageButton" id="course_create_image_button">
-                  Create Image
-                </button>
+                <button type="button" class="createImageButton" id="course_create_image_button">Create Image</button>
               </div>
               <div class="filterBoxWhite">
-                <input
-                  type="checkbox"
-                  class="filterByCheckbox"
-                  id="course_department_checkbox"
-                  name="courseDepartment"
-                />
-                <label
-                  for="course_department_checkbox"
-                  class="filterTextfieldLabel"
-                  >Department</label
-                >
+                <input type="checkbox" class="filterByCheckbox" id="course_department_checkbox" name="courseDepartment"/>
+                <label for="course_department_checkbox" class="filterTextfieldLabel">Department</label>
               </div>
               <div class="filterBoxWhite">
-                <input
-                  type="checkbox"
-                  class="filterByCheckbox"
-                  id="course_professor_checkbox"
-                  name="courseProfessor"
-                />
-                <label for="f_course_professor" class="filterTextfieldLabel"
-                  >Professor</label
-                >
+                <input type="checkbox" class="filterByCheckbox" id="course_professor_checkbox" name="courseProfessor"/>
+                <label for="f_course_professor" class="filterTextfieldLabel">Professor</label>
               </div>
             </div>
             <!-- Filter by Department box -->
@@ -175,52 +146,37 @@
                 <u>Professor Name</u>
               </div>
               <div class="filterNameBox">
-                <label for="professor_name_textfield" class="nameTextfieldLabel"
-                  >Name:</label
-                >
-                <input
-                  type="text"
-                  class="filterNameTextfield"
-                  id="professor_name_textfield"
-                  name="professorNameTextfield"
-                />
+                <label for="professor_name_textfield" class="nameTextfieldLabel">Name:</label>
+                <input type="text" class="filterNameTextfield" id="professor_name_textfield" name="professorNameTextfield"/>
               </div>
               <div class="filterByBoxGold bigText">
                 Filter By:
-                <button
-                  type="button"
-                  class="createImageButton"
-                  id="professor_create_image_button"
-                >
-                  Create Image
-                </button>
+                <button type="button" class="createImageButton" id="professor_create_image_button">Create Image</button>
               </div>
               <div class="filterBoxWhite">
-                <input
-                  type="checkbox"
-                  class="filterByCheckbox"
-                  id="professor_courses_checkbox"
-                  name="professorCourses"
-                />
-                <label
-                  for="professor_courses_checkbox"
-                  class="filterTextfieldLabel"
-                  >Courses</label
-                >
+                <input type="checkbox" class="filterByCheckbox" id="professor_courses_checkbox" name="professorCourses"/>
+                <label for="professor_courses_checkbox" class="filterTextfieldLabel">Courses</label>
               </div>
               <div class="filterBoxWhite">
-                <input
-                  type="checkbox"
-                  class="filterByCheckbox"
-                  id="professor_department_checkbox"
-                  name="professorDepartment"
-                />
-                <label
-                  for="professor_department_checkbox"
-                  class="filterTextfieldLabel"
-                  >Department</label
-                >
+                <input type="checkbox" class="filterByCheckbox" id="professor_department_checkbox" name="professorDepartment"/>
+                <label for="professor_department_checkbox" class="filterTextfieldLabel">Department</label>
               </div>
+            </div>
+          </div>
+          <!-- Help Section container -->
+          <div class="professorFilterHelpContainer hidden" id="professor_filter_help_container">
+            <div class="professorFilterHelpMessageContainer hidden" id="professor_filter_help_text">
+              <div class="helpTextLine">Error:</div>
+              <div class="helpTextLine">Please</div>
+              <div class="helpTextLine">enter a</div>
+              <div class="helpTextLine">professor's</div>
+              <div class="helpTextLine">full</div>
+              <div class="helpTextLine">name</div>
+            </div>
+            <div class="professorFilterHelpMessageContainer hidden" id="professor_filter_help_checkboxes">
+              <div class="helpTextLine">Error:</div>
+              <div class="helpTextLine">Please select</div> 
+              <div class="helpTextLine">(click) a box</div>
             </div>
           </div>
           <!-- Right Side -->
@@ -229,36 +185,35 @@
             <div class="professorsListLabel bigText hidden" id="professors_list_label">
               List of Professors
             </div>
-            <ol class="box" id="current_professors_list">
-              <!-- Initial prompt if data is not loaded -->
-              <div class="initialBoxDataUnloaded" id="initial_box_data_unloaded">
-                <div class="introTextLine">If you are reading this, you probably did not</div>
-                <div class="introSubTextLine">arrive at this page via the "Home Page".</div>
-                <div class="introTextLine">That is alright, just click the button titled:</div>
-                <div class="introSubTextLine">"Initialize Data" to begin.</div>
-                <button type="button" class="initializeDataButton" id="initialize_data_button">
-                  Initialize Data
-                </button>
-              </div>
-              <!-- Initial prompt if data is loaded -->
-              <div class="initialBoxDataLoaded hidden" id="initial_box_data_loaded">
-                <div class="introTextLine">The required data from UMD.io (V1) is loaded.</div>
-                <div class="introTextLine">Select (click) a tab above to begin.</div>
-                <div class="introTextLine">A menu will appear on the left, and a list of</div>
-                <div class="introSubTextLine">Courses, Departments, or Professors will</div>
-                <div class="introSubTextLine">appear on the right.</div>
-                <div class="introTextLine">Once you select the appropriate filter</div>
-                <div class="introSubTextLine">options, click the "Create Image" button to</div>
-                <div class="introSubTextLine">display a visualization of the selected data. </div>
-                <div class="introTextLine">To clear and reload the data, click the</div>
-                <div class="introSubTextLine">"Clear Local Storage" button.</div>
-                <button type="button" class="clearLocalStorageButton" id="clear_local_storage_button">
-                  Clear Local Storage
-                </button>
-              </div>
-              <!-- Label for Professor Names -->
-              
+            <ol class="box hidden" id="current_professors_list">
             </ol>
+             <!-- Initial prompt if data is not loaded -->
+             <div class="box initialBoxDataUnloaded" id="initial_box_data_unloaded">
+              <div class="introTextLine">If you are reading this, you probably did not</div>
+              <div class="introSubTextLine">arrive at this page via the "Home Page".</div>
+              <div class="introTextLine">That is alright, just click the button titled:</div>
+              <div class="introSubTextLine">"Initialize Data" to begin.</div>
+              <button type="button" class="initializeDataButton" id="initialize_data_button">
+                Initialize Data
+              </button>
+            </div>
+            <!-- Initial prompt if data is loaded -->
+            <div class="box initialBoxDataLoaded hidden" id="initial_box_data_loaded">
+              <div class="introTextLine">The required data from UMD.io (V1) is loaded.</div>
+              <div class="introTextLine">Select (click) a tab above to begin.</div>
+              <div class="introTextLine">A menu will appear on the left, and a list of</div>
+              <div class="introSubTextLine">Courses, Departments, or Professors will</div>
+              <div class="introSubTextLine">appear on the right.</div>
+              <div class="introTextLine">Once you select the appropriate filter</div>
+              <div class="introSubTextLine">options, click the "Create Image" button to</div>
+              <div class="introSubTextLine">display a visualization of the selected data. </div>
+              <div class="introTextLine">To clear and reload the data, click the</div>
+              <div class="introSubTextLine">"Clear Local Storage" button.</div>
+              <button type="button" class="clearLocalStorageButton" id="clear_local_storage_button">
+                Clear Local Storage
+              </button>
+            </div>
+            <!-- Label for Professor Names -->
           </div>
             <div class="displaySection hidden" id="display_section_box">
               <div

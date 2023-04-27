@@ -4,7 +4,7 @@ function injectHTMLCurrentProfessorsList(list) {
     const target = document.querySelector("#current_professors_list");
     target.innerHTML = "";
     list.forEach((item) => {
-      const str = `<li>${item}</li>`;
+      const str = `<li class="wrappedListElement">${item}</li>`;
       target.innerHTML += str;
     });
 }
@@ -30,6 +30,17 @@ function getListProfessorNames(professorListGeneral) {
   });
   return listProfessorNames;
 }
+
+function getListProfessorNamesLower(professorListGeneral) {
+    console.log("Entered - getListProfessorNames");
+  
+    let listProfessorNames = [];
+  
+    professorListGeneral.forEach((prof) => {
+      listProfessorNames[listProfessorNames.length] = prof["name"].toLowerCase();
+    });
+    return listProfessorNames;
+  }
 
 /* Returns an array containing the courses a specific Professor (professorName) has
    taught and correspsonding semesters ids */
@@ -235,6 +246,8 @@ function countDepartments(courseidListTrimmed) {
 
 function displayProfessorDepartmentChart(professorName, professorListGeneral, chart) {
     console.log("Entered - displayProfessorDepartmentChart");
+    console.log("Clearing chart data");
+    clearChart(chart);
 
     const taughtSeparated = getSpecificProfessorCourses(professorName, professorListGeneral);
     const courseidListRaw = taughtSeparated[0];
@@ -258,6 +271,8 @@ function displayProfessorDepartmentChart(professorName, professorListGeneral, ch
 
 function displayProfessorCoursesChart(professorName, professorsListGeneral, chart) {
   console.log("Entered - displayProfessorCoursesChart");
+  console.log("Clearing chart data");
+  clearChart(chart);
 
   const taughtSeparated = getSpecificProfessorCourses(professorName, professorsListGeneral);
   console.table(taughtSeparated);
@@ -273,6 +288,7 @@ function displayProfessorCoursesChart(professorName, professorsListGeneral, char
     console.table(coursesPerSemesterDataPoints);
     console.table(chart.options.data[0].dataPoints);
 
+  chart.options.data[0].type = "line";
   chart.options.data[0].dataPoints = coursesPerSemesterDataPoints;
   chart.title.set(
     "text",
@@ -282,16 +298,30 @@ function displayProfessorCoursesChart(professorName, professorsListGeneral, char
   chart.render();
 }
 
-/* The list for when no image is displayed */
-function getBigProfessorsList(professorsListGeneral) {
-    const allProfessorNames = getListProfessorNames(professorsListGeneral);
-    const bigList = allProfessorNames.slice(0, 20);
-    return bigList;
+function clearChart(chart) {
+    chart.options.data[0].dataPoints = [];
+    chart.options.data[0].indexLabel = null;
 }
 
-function clearChart(chart) {
-  chart.options.data[0].dataPoints.length = 0;
-  chart.render();
+
+
+
+/* The list for when no image is displayed */
+function getProfessorsListCut(professorsListGeneral, displaySectionBox) {
+    console.log("Entered - getProfessorsListCut");
+    console.log(displaySectionBox.classList);
+
+    const allProfessorNames = getListProfessorNames(professorsListGeneral);
+    let cutList = [];
+
+    if (displaySectionBox.classList.contains("hidden")) {
+        cutList = allProfessorNames.slice(0, 20);
+    } else {
+        cutList = allProfessorNames.slice(0, 10);
+    }
+
+    console.log("cut list = " + cutList);
+    return cutList;
 }
 
 async function mainEvent() {
@@ -307,6 +337,10 @@ async function mainEvent() {
   const headerCourseButton = document.querySelector("#h_course");
   const headerDepartmentButton = document.querySelector("#h_department");
   const headerProfessorButton = document.querySelector("#h_professor");
+
+  const headerCourseButtonCurrent = document.querySelector("#h_course_current");
+  const headerDepartmentButtonCurrent = document.querySelector("#h_department_current");
+  const headerProfessorButtonCurrent = document.querySelector("#h_professor_current");
 
   const filterCourseSection = document.querySelector("#filter_course_box");
   const filterDepartmentSection = document.querySelector("#filter_department_box");
@@ -336,11 +370,17 @@ async function mainEvent() {
   
   const currentProfessorsList = document.querySelector("#current_professors_list");
 
+  const professorFilterHelpContainer = document.querySelector("#professor_filter_help_container");
+
+  const professorFilterHelpText = document.querySelector("#professor_filter_help_text");
+  const professorFilterHelpCheckboxes = document.querySelector("#professor_filter_help_checkboxes"); 
+
+
   var chart;
   let emptyArray = [];
   let semestersListGeneral = [];
-  let storedProfessorsList = [];
-  let professorsListGeneral = [];
+  let storedProfessorsList = []; // The list which is cut and displayed 
+  let professorsListGeneral = []; // The overall Json list
 
   const tempProfessorsListGeneral = localStorage.getItem('professorsListGeneral');
   let parsedTemp = JSON.parse(tempProfessorsListGeneral);
@@ -377,6 +417,47 @@ async function mainEvent() {
     });
     chart.render();
   };
+
+  function clearProfessorTab() {
+    console.log("Entered - clearProfessorTab");
+
+    filterProfessorSection.classList.add("hidden");
+    headerProfessorButtonCurrent.classList.add("hidden");
+    currentProfessorsList.classList.add("hidden");
+    professorsListLabel.classList.add("hidden");
+    headerProfessorButton.classList.remove("hidden");
+    professorCoursesCheckbox.checked = false;
+    professorDepartmentCheckbox.checked = false;
+    professorNameTextfield.value = "";
+    displaySectionBox.classList.add("hidden");
+  }
+
+  function clearDepartmentTab() {
+    console.log("Entered - clearDepartmentTab");
+
+    filterDepartmentSection.classList.add("hidden");
+    headerDepartmentButtonCurrent.classList.add("hidden");
+    headerDepartmentButton.classList.remove("hidden");
+    departmentCourseCheckbox.checked = false;
+    departmentProfessorCheckbox.checked = false;
+    filterDepartmentProfessorSubsection.classList.add("hidden");
+    departmentProfessorSemestersCheckbox.checked = false;
+    departmentProfessorNumberCheckbox.checked = false;
+    departmentNameTextfield.value = "";
+    displaySectionBox.classList.add("hidden");
+  }
+
+  function clearCourseTab() {
+    console.log("Entered - clearCourseTab");
+
+    filterCourseSection.classList.add("hidden");
+    headerCourseButtonCurrent.classList.add("hidden");
+    headerCourseButton.classList.remove("hidden");
+    courseDepartmentCheckbox.checked = false;
+    courseProfessorCheckbox.checked = false;
+    courseNameTextfield.value = "";
+    displaySectionBox.classList.add("hidden");
+  }
 
   /* Initialize the main_form to allow for event listeners */
   initializeDataButton.addEventListener("click", async (submitEvent) => {
@@ -441,22 +522,51 @@ async function mainEvent() {
 
   professorCreateImageButton.addEventListener("click", (event) => {
     console.log("Fired - Clicked professor_refresh button");
+    
     const professorName = professorNameTextfield.value;
+    const allProfessorNames = getListProfessorNamesLower(professorsListGeneral);
 
-    if (professorCoursesCheckbox.checked) {
-      console.log("Stepped into - professor_courses_checkbox is checked");
-     
-      displaySectionBox.classList.remove("hidden");
-      displayProfessorCoursesChart(professorName, professorsListGeneral, chart);
-    } else if (professorDepartmentCheckbox.checked) {
-      console.log("Stepped into - professor_department_checkbox is checked");
-      
-      displaySectionBox.classList.remove("hidden");
-      displayProfessorDepartmentChart(professorName, professorsListGeneral, chart); 
+    if (allProfessorNames?.includes(professorName)) {
+
+      if (professorCoursesCheckbox.checked) {
+        console.log("Stepped into - professor_courses_checkbox is checked");
+
+        displaySectionBox.classList.remove("hidden");
+        currentProfessorsList.classList.remove("box");
+        currentProfessorsList.classList.add("currentListWrapped");
+        displayProfessorCoursesChart(professorName, professorsListGeneral, chart);
+      } else if (professorDepartmentCheckbox.checked) {
+        console.log("Stepped into - professor_department_checkbox is checked");
+
+        displaySectionBox.classList.remove("hidden");
+        currentProfessorsList.classList.remove("box");
+        currentProfessorsList.classList.add("currentListWrapped");
+        displayProfessorDepartmentChart(professorName,professorsListGeneral,chart);
+      } else {
+        console.log("No Step - no filter boxes are checked");
+
+        professorFilterHelpContainer.classList.remove("hidden");
+        professorFilterHelpCheckboxes.classList.add("hugeTopMargin");
+        professorFilterHelpCheckboxes.classList.remove("hidden");
+
+        setTimeout(()=> { professorFilterHelpCheckboxes.classList.remove("hugeTopMargin"); }, 3000);
+        setTimeout(()=> { professorFilterHelpCheckboxes.classList.add("hidden"); }, 3000);
+        setTimeout(()=> { professorFilterHelpContainer.classList.add("hidden"); }, 3000);
+      }
     } else {
-      console.log("No Step - no filter boxes are checked");
+        professorFilterHelpContainer.classList.remove("hidden");
+        professorFilterHelpText.classList.remove("hidden");
 
-      /* need to fill in with a prompt that tells the user to check a filter box */
+        setTimeout(()=> { professorFilterHelpText.classList.add("hidden"); }, 3000);
+        setTimeout(()=> { professorFilterHelpContainer.classList.add("hidden"); }, 3000);
+
+        if (professorCoursesCheckbox.checked != true && professorDepartmentCheckbox.checked != true) {
+            professorFilterHelpCheckboxes.classList.add("bigTopMargin");
+            professorFilterHelpCheckboxes.classList.remove("hidden");
+
+            setTimeout(()=> { professorFilterHelpCheckboxes.classList.remove("bigTopMargin"); }, 3000);
+            setTimeout(()=> { professorFilterHelpCheckboxes.classList.add("hidden"); }, 3000);
+        }
     }
   });
 
@@ -464,18 +574,11 @@ async function mainEvent() {
 professorNameTextfield.addEventListener("input", (event) => {
     console.log("Input - professorNameTextfield - " + event.target.value);
 
-    const allNames = getListProfessorNames(professorsListGeneral)
+    const allNames = getListProfessorNames(professorsListGeneral);
     const newList = filterList(allNames, event.target.value);
-
     let trimmedList = [];
-
-    if (displaySectionBox.classList.contains("hidden")) {
-        trimmedList = newList.slice(0,20);
-    } else {
-        trimmedList = newList.slice(0,10);
-    }
+    trimmedList = newList.slice(0,20);
     injectHTMLCurrentProfessorsList(trimmedList);
-
 });
 
   /* Checkbox Event Listeners - Professor Tab */
@@ -619,23 +722,32 @@ professorNameTextfield.addEventListener("input", (event) => {
 
     /* this makes the user load the data before allowing any input */
     if (professorsListGeneral.length > 0) {
+        headerCourseButton.classList.add("hidden");
+        headerCourseButtonCurrent.classList.remove("hidden");
+
+        initialBoxDataLoaded.classList.add("hidden");
+       // courseListLabel.classList.remove("hidden");
+       // currentCoursesList.classList.remove("hidden");
+       // storedCoursesList = get 
+       // injectHTML
       if (filterDepartmentSection.classList.contains("hidden") != true) {
-        filterDepartmentSection.classList.add("hidden");
-        headerDepartmentButton.classList.remove("currentHeaderFilterTab");
+        clearDepartmentTab();
       }
       if (filterProfessorSection.classList.contains("hidden") != true) {
-        filterProfessorSection.classList.add("hidden");
-        headerProfessorButton.classList.remove("currentHeaderFilterTab");
+        clearProfessorTab();
       }
       if (filterCourseSection.classList.contains("hidden")) {
         filterCourseSection.classList.remove("hidden");
-        headerCourseButton.classList.add("currentHeaderFilterTab");
       }
-      /* if (headerCourseButton.classList.contains("currentHeaderFilterTab") != true) {
-            headerCourseButton.classList.add("currentHeaderFilterTab");
-        }*/
     }
   });
+
+  headerCourseButtonCurrent.addEventListener("click", (event) => {
+    console.log("Fired - headerCourseButtonCurrent");
+
+    clearCourseTab();
+    initialBoxDataLoaded.classList.remove("hidden");
+  })
 
   /* Set view to search by department */
   headerDepartmentButton.addEventListener("click", (event) => {
@@ -643,46 +755,70 @@ professorNameTextfield.addEventListener("input", (event) => {
 
     /* this makes the user load the data before allowing any input */
     if (professorsListGeneral.length > 0) {
-      if (filterProfessorSection.classList.contains("hidden") != true) {
-        filterProfessorSection.classList.add("hidden");
-        headerProfessorButton.classList.remove("currentHeaderFilterTab");
-      }
-      if (filterCourseSection.classList.contains("hidden") != true) {
-        filterCourseSection.classList.add("hidden");
-        headerCourseButton.classList.remove("currentHeaderFilterTab");
-      }
-      if (filterDepartmentSection.classList.contains("hidden")) {
-        filterDepartmentSection.classList.remove("hidden");
-        headerDepartmentButton.classList.add("currentHeaderFilterTab");
-      }
+        headerDepartmentButton.classList.add("hidden");
+        headerDepartmentButtonCurrent.classList.remove("hidden");
+
+        initialBoxDataLoaded.classList.add("hidden");
+        //departmentListLabel.classList.remove("hidden");
+        //currentDepartmentsList.classList.remove("hidden");
+        /*storedDepartmentsList = getDepartmentsListCut()*/
+        /* inject html */
+        if (filterProfessorSection.classList.contains("hidden") != true) {
+            clearProfessorTab();    
+        }
+        if (filterCourseSection.classList.contains("hidden") != true) {
+            clearCourseTab();
+        }
+        if (filterDepartmentSection.classList.contains("hidden")) {
+            filterDepartmentSection.classList.remove("hidden");
+        } 
     }
   });
+  
+  headerDepartmentButtonCurrent.addEventListener("click", (event) => {
+    console.log("Fired - headerDepartmentButtonCurrent");
+
+    clearDepartmentTab();
+    initialBoxDataLoaded.classList.remove("hidden");
+  })
 
   /* Set view to search by professor */
   headerProfessorButton.addEventListener("click", (event) => {
-    console.log("Fired - Clicked h_professor button");
+    console.log("Fired - Clicked headerProfessorButton button");
 
-    /* this makes the user load the data before allowing any input */
-    if (professorsListGeneral.length > 0) {
-        initialBoxDataLoaded.classList.add("hidden");
-        professorsListLabel.classList.remove("hidden");
-        storedProfessorsList = getBigProfessorsList(professorsListGeneral);
-        injectHTMLCurrentProfessorsList(storedProfessorsList);
+    /* This runs if professorsListGeneral is populated and the section has not been selected yet */    
+        if (professorsListGeneral.length > 0) {
+            headerProfessorButton.classList.add("hidden");
+            headerProfessorButtonCurrent.classList.remove("hidden");
 
+            initialBoxDataLoaded.classList.add("hidden");
+            professorsListLabel.classList.remove("hidden");
+            currentProfessorsList.classList.remove("hidden");
+            storedProfessorsList = getProfessorsListCut(professorsListGeneral, displaySectionBox);
+            injectHTMLCurrentProfessorsList(storedProfessorsList);
         if (filterCourseSection.classList.contains("hidden") != true) {
-          filterCourseSection.classList.add("hidden");
-          headerCourseButton.classList.remove("currentHeaderFilterTab");
+            clearCourseTab();
         }
         if (filterDepartmentSection.classList.contains("hidden") != true) {
-          filterDepartmentSection.classList.add("hidden");
-          headerDepartmentButton.classList.remove("currentHeaderFilterTab");
+          clearDepartmentTab();
         }
         if (filterProfessorSection.classList.contains("hidden")) {
           filterProfessorSection.classList.remove("hidden");
-          headerProfessorButton.classList.add("currentHeaderFilterTab");
-        }
-    }
+        } 
+        /*if (chart.options.data[0].dataPoints.length > 0) {
+            displaySectionBox.classList.remove("hidden");
+            currentProfessorsList.classList.remove("box");
+            currentProfessorsList.classList.add("currentListWrapped");
+        }*/
+    }  
   });
+
+  headerProfessorButtonCurrent.addEventListener("click", (event) => {
+    console.log("Fired - headerProfessorButtonCurrent");
+
+    clearProfessorTab();
+    initialBoxDataLoaded.classList.remove("hidden");
+  })
 
   clearLocalStorageButton.addEventListener("click", (event) => {
     console.log("Fired - clearLocalStorageButton");
