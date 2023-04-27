@@ -430,6 +430,8 @@ async function mainEvent() {
     professorDepartmentCheckbox.checked = false;
     professorNameTextfield.value = "";
     displaySectionBox.classList.add("hidden");
+    currentProfessorsList.classList.remove("currentListWrapped");
+    currentProfessorsList.classList.add("box");
   }
 
   function clearDepartmentTab() {
@@ -445,6 +447,8 @@ async function mainEvent() {
     departmentProfessorNumberCheckbox.checked = false;
     departmentNameTextfield.value = "";
     displaySectionBox.classList.add("hidden");
+    // need to remove currentListWrapped
+    // need to add box
   }
 
   function clearCourseTab() {
@@ -457,6 +461,8 @@ async function mainEvent() {
     courseProfessorCheckbox.checked = false;
     courseNameTextfield.value = "";
     displaySectionBox.classList.add("hidden");
+     // need to remove currentListWrapped
+    // need to add box
   }
 
   /* Initialize the main_form to allow for event listeners */
@@ -576,8 +582,10 @@ professorNameTextfield.addEventListener("input", (event) => {
 
     const allNames = getListProfessorNames(professorsListGeneral);
     const newList = filterList(allNames, event.target.value);
+    
     let trimmedList = [];
     trimmedList = newList.slice(0,20);
+
     injectHTMLCurrentProfessorsList(trimmedList);
 });
 
