@@ -1,12 +1,24 @@
 /* Updates the currentProfessorsList */
 function injectHTMLCurrentProfessorsList(list) {
-    console.log("Fired injectHTMLCurrentProfessorsList");
+    console.log("Fired - injectHTMLCurrentProfessorsList");
+    
     const target = document.querySelector("#current_professors_list");
     target.innerHTML = "";
     list.forEach((item) => {
       const str = `<li class="wrappedListElement">${item}</li>`;
       target.innerHTML += str;
     });
+}
+
+function injectHTMLCurrentCoursesList(list) {
+  console.log("Fired - injectHTMLCurrentCoursesList");
+
+  const target = document.querySelector("#current_courses_list");
+  target.innerHTML = "";
+  list.forEach((item) => {
+    const str = `<li class="wrappedListElement">${item}</li>`;
+    target.innerHTML += str;
+  })
 }
 
 /* A quick filter that will return something based on a matching input */
@@ -126,6 +138,51 @@ function parseCoursesString(coursesTaughtRaw) {
   }
   return [courseidList, semesteridList];
 }
+
+/*
+function parseCoursesList(coursesListString) {
+  console.log("Entered - parseCourseString");
+
+  let courseidList = [];
+  let curString = coursesListString;
+
+  while (curString.length > 3) {
+    // the last part of the string would be left as '}]' (2)
+    const firstQuote = curString.indexOf('"');
+    //console.log("first quote pos = " + firstQuote);
+
+    const secondQuote = curString.indexOf('"', firstQuote + 1);
+    //console.log("second quote pos = " + secondQuote);
+
+    const thirdQuote = curString.indexOf('"', secondQuote + 1);
+    //console.log("third quote pos = " + thirdQuote);
+
+    const fourthQuote = curString.indexOf('"', thirdQuote + 1);
+    //console.log("fourth quote pos = " + fourthQuote);
+
+    const fifthQuote = curString.indexOf('"', fourthQuote + 1);
+    //console.log("fifth quote pos = " + fifthQuote);
+
+    const sixthQuote = curString.indexOf('"', fifthQuote + 1);
+    //console.log("sixth quote pos = " + sixthQuote);
+
+    const seventhQuote = curString.indexOf('"', sixthQuote + 1);
+    //console.log("seventh quote pos = " + seventhQuote);
+
+    const eighthQuote = curString.indexOf('"', seventhQuote + 1);
+    //console.log("eighth quote pos = " + eighthQuote);
+
+    courseidList[courseidList.length] = curString.substring(
+      thirdQuote + 1,
+      fourthQuote
+    );
+    
+
+    curString = curString.substring(eighthQuote + 1);
+    //console.log("curString = " + curString);
+  }
+  return [courseidList];
+}*/
 
 /* Takes a numeric representation of semesterID (String) and returns a formatted String */
 function formatSemesterID(semesteridList) {
@@ -298,31 +355,67 @@ function displayProfessorCoursesChart(professorName, professorsListGeneral, char
   chart.render();
 }
 
+function displayCourseProfessorChart(courseID, coursesListGeneral, chart) {
+  console.log("Entered - displayCourseDepartmentChart");
+  console.log("Clearing chart data");
+  clearChart(chart);
+
+  console.log("fill in later");
+  /* Fill in later */
+}
+
+function displayCourseDepartmentChart(courseID, coursesListGeneral, chart) {
+  console.log("Entered - displayCourseDepartmentChart");
+  console.log("Clearing chart data");
+  clearChart(chart);
+
+  console.log("fill in later");
+  /* Fill in later */
+}
+
+
+
 function clearChart(chart) {
     chart.options.data[0].dataPoints = [];
     chart.options.data[0].indexLabel = null;
 }
 
+function getCoursesList(coursesListGeneral) {
+  console.log("Entered - getCoursesListCut");  
 
+  let courseIDList = [];
 
+  coursesListGeneral.forEach((course) => {
+    courseIDList[courseIDList.length] = course["course_id"];
+  })
+  
+  return courseIDList;
+}
+
+function getCoursesListLower(coursesListGeneral) {
+  console.log("Entered - getCoursesListCut");  
+
+  let courseIDList = [];
+
+  coursesListGeneral.forEach((course) => {
+    courseIDList[courseIDList.length] = course["course_id"].toLowerCase();
+  })
+  
+  return courseIDList;
+}
 
 /* The list for when no image is displayed */
-function getProfessorsListCut(professorsListGeneral, displaySectionBox) {
+function getProfessorsListCut(professorsListGeneral) {
     console.log("Entered - getProfessorsListCut");
-    console.log(displaySectionBox.classList);
 
     const allProfessorNames = getListProfessorNames(professorsListGeneral);
-    let cutList = [];
+    const cutList = allProfessorNames.slice(0, 20);
 
-    if (displaySectionBox.classList.contains("hidden")) {
-        cutList = allProfessorNames.slice(0, 20);
-    } else {
-        cutList = allProfessorNames.slice(0, 10);
-    }
-
-    console.log("cut list = " + cutList);
     return cutList;
 }
+
+
+
 
 async function mainEvent() {
   const mainForm = document.querySelector(".main_form");
@@ -366,28 +459,40 @@ async function mainEvent() {
   const initialBoxDataUnloaded = document.querySelector("#initial_box_data_unloaded");
   const initialBoxDataLoaded = document.querySelector("#initial_box_data_loaded");
 
+  const coursesListLabel = document.querySelector("#courses_list_label");
   const professorsListLabel = document.querySelector("#professors_list_label");
   
+  const currentCoursesList = document.querySelector("#current_courses_list");
   const currentProfessorsList = document.querySelector("#current_professors_list");
 
   const professorFilterHelpContainer = document.querySelector("#professor_filter_help_container");
-
   const professorFilterHelpText = document.querySelector("#professor_filter_help_text");
   const professorFilterHelpCheckboxes = document.querySelector("#professor_filter_help_checkboxes"); 
 
+  const courseFilterHelpContainer = document.querySelector("#course_filter_help_container");
+  const courseFilterHelpText = document.querySelector("#course_filter_help_text");
+  const courseFilterHelpCheckboxes = document.querySelector("#course_filter_help_checkboxes");
 
   var chart;
-  let emptyArray = [];
   let semestersListGeneral = [];
+  let coursesListGeneral = []; // The overall Json list for all course info
+  let professorsListGeneral = []; // The overall Json list for all professor info
+
   let storedProfessorsList = []; // The list which is cut and displayed 
-  let professorsListGeneral = []; // The overall Json list
+  let storedCoursesList = [];
 
   const tempProfessorsListGeneral = localStorage.getItem('professorsListGeneral');
-  let parsedTemp = JSON.parse(tempProfessorsListGeneral);
+  const tempCoursesListGeneral = localStorage.getItem('coursesListGeneral');
+  let parsedTempProfessorsListGeneral = JSON.parse(tempProfessorsListGeneral);
+  let parsedTempCoursesListGeneral = JSON.parse(tempCoursesListGeneral);
 
-  if (parsedTemp?.length > 0) {
+  if (parsedTempProfessorsListGeneral?.length > 0 && parsedTempCoursesListGeneral?.length > 0) {
     console.log("Loaded - professorsListGeneral was loaded from localStorage");
-    professorsListGeneral = parsedTemp;
+    professorsListGeneral = parsedTempProfessorsListGeneral;
+
+    console.log("Loaded - coursesListGeneral was loaded from localStorage");
+    coursesListGeneral = parsedTempCoursesListGeneral;
+    
     initialBoxDataUnloaded.classList.add("hidden");
     initialBoxDataLoaded.classList.remove("hidden");
   } else {
@@ -461,63 +566,64 @@ async function mainEvent() {
     courseProfessorCheckbox.checked = false;
     courseNameTextfield.value = "";
     displaySectionBox.classList.add("hidden");
+    coursesListLabel.classList.add("hidden");
+    currentCoursesList.classList.add("hidden");
      // need to remove currentListWrapped
     // need to add box
   }
 
-  /* Initialize the main_form to allow for event listeners */
-  initializeDataButton.addEventListener("click", async (submitEvent) => {
-    console.log("Fired - initialize button");
-
-    /* Loading list of professors */
-    console.log("Fired - loading professor - a list of all professors");
-    const professorsListRaw = await fetch("https://api.umd.io/v1/professors");
-    professorsListGeneral = await professorsListRaw.json();
-    localStorage.setItem('professorsListGeneral', JSON.stringify(professorsListGeneral));
-
-
-    /* Loading list of semesters */
-    console.log("Fired - loading semesters - a list of all semesters");
-    const semestersListRaw = await fetch(
-      "https://api.umd.io/v1/courses/semesters"
-    );
-    semestersListGeneral = await semestersListRaw.json();
-
-    /* Loading list of courses */
-    /*
-        console.log("Fired - loading courses - a list of all courses");
-        const courseListRaw = await fetch (
-            "https://api.umd.io/v1/"
-        )*/
-
-    /*
-        const generalFormRaw = await fetch ("https://api.umd.io/v1", {
-        });
-        console.log("got generalFormRaw data: ");
-       
-        console.log("getting generalForm data: ");
-        console.table(generalFormRaw);
-
-        const generalForm = await generalFormRaw.json();
-        console.log("got generalForm data: ");
-        console.table(generalForm);
-
-        console.log("generalForm index 0 data: ");
-        console.table(generalForm[1]);
-*/
-        initializeDataButton.classList.add("hidden");
-        initialBoxDataUnloaded.classList.add("hidden");
-        initialBoxDataLoaded.classList.remove("hidden");
-        clearLocalStorageButton.classList.remove("hidden");
-  });
 
   /* Primary Logic Flow */
   /* The Real Main Event */
 
   courseCreateImageButton.addEventListener("click", (event) => {
-    console.log("Fired - Clicked course_refresh button");
+    console.log("Fired - Clicked course_create_image_button");
 
-    /* Fill in later */
+    const courseID = courseNameTextfield.value.toLowerCase
+    const allCourseIDs = getCoursesListLower(coursesListGeneral);
+
+    if (allCourseIDs?.includes(courseID)) {
+
+      if (courseDepartmentCheckbox.checked) {
+        console.log("Stepped into - course_department_checkbox is checked");
+
+        displaySectionBox.classList.remove("hidden");
+        currentCoursesList.classList.remove("box");
+        currentCoursesList.classList.add("currentListWrapped");
+        displayCourseDepartmentChart(courseID, coursesListGeneral, chart);
+      } else if (courseProfessorCheckbox.checked) {
+        console.log("Stepped into - course_professor_checkbox is checked");
+        
+        displaySectionBox.classList.remove("hidden");
+        currentCoursesList.classList.remove("box");
+        currentCoursesList.classList.add("currentListWrapped");
+        displayCourseProfessorChart(courseID, coursesListGeneral, chart);
+      } else {
+        console.log("No Step - no filter boxes are checked");
+
+        courseFilterHelpContainer.classList.remove("hidden");
+        courseFilterHelpCheckboxes.classList.add("hugeTopMargin");
+        courseFilterHelpCheckboxes.classList.remove("hidden");
+
+        setTimeout(() => {courseFilterHelpCheckboxes.classList.remove("hugeTopMargin"); }, 3000);
+        setTimeout(() => {courseFilterHelpCheckboxes.classList.add("hidden"); }, 3000);
+        setTimeout(() => {courseFilterHelpContainer.classList.add("hidden"); }, 3000);
+      }
+    } else {
+      courseFilterHelpContainer.classList.remove("hidden");
+      courseFilterHelpText.classList.remove("hidden");
+
+      setTimeout(() => {courseFilterHelpText.classList.add("hidden"); }, 3000);
+      setTimeout(() => {courseFilterHelpContainer.classList.add("hidden"); }, 3000);
+
+      if (courseDepartmentCheckbox.checked != true && courseProfessorCheckbox.checked != true) {
+        courseFilterHelpCheckboxes.classList.add("bigTopMargin");
+        courseFilterHelpCheckboxes.classList.remove("hidden");
+
+        setTimeout(() => {courseFilterHelpCheckboxes.classList.remove("bigTopMargin"); }, 3000);
+        setTimeout(() => {courseFilterHelpCheckboxes.classList.add("hidden"); }, 3000);
+      }
+    }
   });
 
   departmentCreateImageButton.addEventListener("click", (event) => {
@@ -527,9 +633,9 @@ async function mainEvent() {
   });
 
   professorCreateImageButton.addEventListener("click", (event) => {
-    console.log("Fired - Clicked professor_refresh button");
+    console.log("Fired - Clicked professor_create_image_button");
     
-    const professorName = professorNameTextfield.value;
+    const professorName = professorNameTextfield.value.toLowerCase();
     const allProfessorNames = getListProfessorNamesLower(professorsListGeneral);
 
     if (allProfessorNames?.includes(professorName)) {
@@ -576,18 +682,47 @@ async function mainEvent() {
     }
   });
 
-/* Textfield Event Listeners */
-professorNameTextfield.addEventListener("input", (event) => {
+/* Textfield Input Event Listeners */
+  courseNameTextfield.addEventListener("input", (event) => {
+    console.log("Input - courseNameTextfield - " + event.target.value);
+
+    const allNames = getCoursesList(coursesListGeneral);
+    const newList = filterList(allNames, event.target.value);
+    const trimmedList = newList.slice(0,20);
+
+    injectHTMLCurrentCoursesList(trimmedList);
+
+  })
+
+  professorNameTextfield.addEventListener("input", (event) => {
     console.log("Input - professorNameTextfield - " + event.target.value);
 
     const allNames = getListProfessorNames(professorsListGeneral);
     const newList = filterList(allNames, event.target.value);
-    
+
     let trimmedList = [];
     trimmedList = newList.slice(0,20);
 
     injectHTMLCurrentProfessorsList(trimmedList);
-});
+  });
+
+/* Textfield Click Event Listeners */
+  courseNameTextfield.addEventListener("click", (event) => {
+    console.log("Fired - professorNameTextfield - clicked");
+
+    if (event.target.value != null) {
+      event.target.select();
+    }
+  })  
+
+  professorNameTextfield.addEventListener("click", (event) => {
+  console.log("Fired - professorNameTextfield - clicked");
+
+  if (event.target.value != null) {
+    event.target.select();
+  }
+  })
+
 
   /* Checkbox Event Listeners - Professor Tab */
   professorCoursesCheckbox.addEventListener("change", (event) => {
@@ -734,10 +869,10 @@ professorNameTextfield.addEventListener("input", (event) => {
         headerCourseButtonCurrent.classList.remove("hidden");
 
         initialBoxDataLoaded.classList.add("hidden");
-       // courseListLabel.classList.remove("hidden");
-       // currentCoursesList.classList.remove("hidden");
-       // storedCoursesList = get 
-       // injectHTML
+        coursesListLabel.classList.remove("hidden");
+        currentCoursesList.classList.remove("hidden");
+        storedCoursesList = getCoursesList(coursesListGeneral);
+        injectHTMLCurrentCoursesList(storedCoursesList.slice(0,20));
       if (filterDepartmentSection.classList.contains("hidden") != true) {
         clearDepartmentTab();
       }
@@ -802,7 +937,7 @@ professorNameTextfield.addEventListener("input", (event) => {
             initialBoxDataLoaded.classList.add("hidden");
             professorsListLabel.classList.remove("hidden");
             currentProfessorsList.classList.remove("hidden");
-            storedProfessorsList = getProfessorsListCut(professorsListGeneral, displaySectionBox);
+            storedProfessorsList = getProfessorsListCut(professorsListGeneral);
             injectHTMLCurrentProfessorsList(storedProfessorsList);
         if (filterCourseSection.classList.contains("hidden") != true) {
             clearCourseTab();
@@ -827,6 +962,41 @@ professorNameTextfield.addEventListener("input", (event) => {
     clearProfessorTab();
     initialBoxDataLoaded.classList.remove("hidden");
   })
+
+ /* Initialize the main_form to allow for event listeners */
+  initializeDataButton.addEventListener("click", async (submitEvent) => {
+  console.log("Fired - initialize button");
+
+  /* Loading list of professors */
+  console.log("Fired - loading professor - a list of all professors");
+  const professorsListRaw = await fetch("https://api.umd.io/v1/professors");
+  professorsListGeneral = await professorsListRaw.json();
+  localStorage.setItem('professorsListGeneral', JSON.stringify(professorsListGeneral));
+
+
+  /* Loading list of semesters */
+ /* console.log("Fired - loading semesters - a list of all semesters");
+  const semestersListRaw = await fetch(
+    "https://api.umd.io/v1/courses/semesters"
+  );
+  semestersListGeneral = await semestersListRaw.json();*/
+
+  /* Loading list of courses */
+  console.log("Fired - loading courses");  
+
+  const coursesListRaw = await fetch (
+    "https://api.umd.io/v1/courses/list"
+  )
+  coursesListGeneral = await coursesListRaw.json();
+  localStorage.setItem('coursesListGeneral', JSON.stringify(coursesListGeneral));
+
+
+  /* Hiding this box and button */
+      initializeDataButton.classList.add("hidden");
+      initialBoxDataUnloaded.classList.add("hidden");
+      initialBoxDataLoaded.classList.remove("hidden");
+      clearLocalStorageButton.classList.remove("hidden");
+  });
 
   clearLocalStorageButton.addEventListener("click", (event) => {
     console.log("Fired - clearLocalStorageButton");

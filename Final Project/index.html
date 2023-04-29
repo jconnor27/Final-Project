@@ -164,7 +164,7 @@
             </div>
           </div>
           <!-- Help Section container -->
-          <div class="professorFilterHelpContainer hidden" id="professor_filter_help_container">
+          <div class="filterHelpContainer hidden" id="professor_filter_help_container">
             <div class="professorFilterHelpMessageContainer hidden" id="professor_filter_help_text">
               <div class="helpTextLine">Error:</div>
               <div class="helpTextLine">Please</div>
@@ -179,12 +179,32 @@
               <div class="helpTextLine">(click) a box</div>
             </div>
           </div>
+          <div class="filterHelpContainer hidden" id="course_filter_help_container">
+            <div class="courseFilterHelpMessageContainer hidden" id="course_filter_help_text">
+              <div class="helpTextLine">Error:</div>
+              <div class="helpTextLine">Please</div>
+              <div class="helpTextLine">enter a</div>
+              <div class="helpTextLine">professor's</div>
+              <div class="helpTextLine">full</div>
+              <div class="helpTextLine">name</div>
+            </div>
+            <div class="courseFilterHelpMessageContainer hidden" id="course_filter_help_checkboxes">
+              <div class="helpTextLine">Error:</div>
+              <div class="helpTextLine">Please select</div> 
+              <div class="helpTextLine">(click) a box</div>
+            </div>
+          </div>
           <!-- Right Side -->
           <div class="rightSideContainer">
-            <div class="professorsListContainer">
-            <div class="professorsListLabel bigText hidden" id="professors_list_label">
+            <div class="currentListContainer">
+            <div class="currentListLabel bigText hidden" id="professors_list_label">
               List of Professors
             </div>
+            <div class="currentListLabel bigText hidden" id="courses_list_label">
+              List of Courses
+            </div>
+            <ol class="box hidden" id="current_courses_list">
+            </ol>
             <ol class="box hidden" id="current_professors_list">
             </ol>
              <!-- Initial prompt if data is not loaded -->
