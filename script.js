@@ -13,15 +13,20 @@ async function mainEvent() {
         console.log("Fired - loadDataButton");
 
         console.log("Fetching - loading professor - a list of all professors");
+        
         const professorsListRaw = await fetch("https://api.umd.io/v1/professors");
         const professorsListGeneral = await professorsListRaw.json();
         localStorage.setItem('professorsListGeneral', JSON.stringify(professorsListGeneral));
+       
+        console.log("Stored - put professorsListGeneral in localStorage");
 
-        console.log("Fired - loading courses");  
+        console.log("Fetching - loading courses - a list of courseIDs and names");  
+        
         const coursesListRaw = await fetch ("https://api.umd.io/v1/courses/list")
         const coursesListGeneral = await coursesListRaw.json();
         localStorage.setItem('coursesListGeneral', JSON.stringify(coursesListGeneral));
        
+        console.log("Stored - put coursesListGeneral in localStorage");
        
         homePageLoadBox.classList.add("hidden");
         homePageDoneLoadingBox.classList.remove("hidden"); 
