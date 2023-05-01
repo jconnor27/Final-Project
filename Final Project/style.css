@@ -74,6 +74,19 @@ form {
   margin-bottom: 0;
 }
 
+.introTextLineNote {
+  font-size: medium;
+  margin: 1rem;
+  margin-bottom:0;
+}
+
+.introSubTextLineNote {
+  font-size: medium;
+  margin: 1rem;
+  margin-top:0;
+  margin-bottom: 0;
+}
+
 .helpTextLine {
   font-size: medium;
 }
@@ -85,6 +98,21 @@ form {
   align-self: flex-start;
   margin-left: -1rem;
   margin-right: -5.5rem;
+}
+
+.comingSoonContainer {
+  display:flex;
+  
+  justify-content: center;
+  align-items: center;
+}
+
+.comingSoon {
+  display: flex;
+  border: 2px solid black;
+  padding: 1rem;
+  width: 200px;
+  height: 200px;
 }
 
 .professorFilterHelpMessageContainer {

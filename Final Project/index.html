@@ -45,11 +45,11 @@
               </div>
               <div class="filterBoxWhite">
                 <input type="checkbox" class="filterByCheckbox" id="course_department_checkbox" name="courseDepartment"/>
-                <label for="course_department_checkbox" class="filterTextfieldLabel">Department</label>
+                <label for="course_department_checkbox" class="filterTextfieldLabel">Departments</label>
               </div>
               <div class="filterBoxWhite">
                 <input type="checkbox" class="filterByCheckbox" id="course_professor_checkbox" name="courseProfessor"/>
-                <label for="f_course_professor" class="filterTextfieldLabel">Professor</label>
+                <label for="f_course_professor" class="filterTextfieldLabel">Professors</label>
               </div>
             </div>
             <!-- Filter by Department box -->
@@ -232,6 +232,13 @@
               <button type="button" class="clearLocalStorageButton" id="clear_local_storage_button">
                 Clear Local Storage
               </button>
+              <div class="introTextLineNote">Note: In this current version, the "Professor"</div>
+              <div class="introSubTextLineNote">tab works 100% and has the most visual data.</div>
+              <div class="introTextLineNote">The "Course" tab has filter by "Professors" </div>
+              <div class="introSubTextLineNote">however, the current data from</div>
+              <div class="introSubTextLineNote">UMD.IO/V1/professors is limited.</div>
+
+
             </div>
             <!-- Label for Professor Names -->
           </div>
@@ -241,6 +248,11 @@
                 id="chartContainer"
                 style="height: 300px; width: 100%"
               ></div>
+            </div>
+            <div class="comingSoonContainer hidden" id="coming_Soon_Container">
+              <div class="comingSoon bigBoldText" id="coming_Soon">
+                Coming Soon
+              </div>
             </div>
           </div>
         </div>

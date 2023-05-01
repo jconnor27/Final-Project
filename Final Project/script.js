@@ -257,7 +257,7 @@ function convertToDataPointsProfessorCourses(rawData) {
 }
 
 function convertToDataPointsProfessorDepartments(rawData) {
-    console.log("Entered - convertToDataPoints");
+    console.log("Entered - convertToDataPointsProfessorDepartments");
     let dataPoints = [];
   
     rawData.forEach((pair) => {
@@ -268,6 +268,19 @@ function convertToDataPointsProfessorDepartments(rawData) {
     });
     return dataPoints;
   }
+
+function convertToDataPointsCourseProfessors(rawData) {
+  console.log("Entered - convertToDataPointsCourseProfessors");
+  let dataPoints = [];
+
+  rawData.forEach((pair) => {
+    dataPoints[dataPoints.length] = {
+      y: pair.count,
+      label: pair.name,
+    };
+  });
+  return dataPoints;
+}
 
 function trimCourseNumber(courseidList) {
     console.log("Entered - trimCourseNumber");
@@ -299,6 +312,31 @@ function countDepartments(courseidListTrimmed) {
            
     });
     return dataPointsUnformatted;
+}
+
+function countTimesToughtCourse(professorsListGeneral, courseID) {
+  console.log("Entered - countTimesToughtCourse");
+
+  const upperCourseID = courseID.toUpperCase();
+  let dataRaw = [];
+
+  professorsListGeneral.forEach((prof) => { // For each professor
+    let count = 0;
+
+    prof.taught.forEach((course) => { // For each of their courses
+      if (course.course_id.localeCompare(upperCourseID) == 0) { // if the course = the course param
+        console.log("main course ID = " + upperCourseID + " - current course ID = " + course.course_id);
+        count += 1;
+      }
+    })
+    if (count != 0) {
+      dataRaw[dataRaw.length] = {
+        name: prof.name,
+        count: count,
+      };
+    }
+  })
+  return dataRaw;
 }
 
 function displayProfessorDepartmentChart(professorName, professorListGeneral, chart) {
@@ -355,13 +393,27 @@ function displayProfessorCoursesChart(professorName, professorsListGeneral, char
   chart.render();
 }
 
-function displayCourseProfessorChart(courseID, coursesListGeneral, chart) {
+function displayCourseProfessorChart(courseID, coursesListGeneral, professorsListGeneral, chart) {
   console.log("Entered - displayCourseDepartmentChart");
   console.log("Clearing chart data");
   clearChart(chart);
 
-  console.log("fill in later");
-  /* Fill in later */
+  console.log("hi 2.0");
+  const rawData = countTimesToughtCourse(professorsListGeneral, courseID);
+  const dataPoints = convertToDataPointsCourseProfessors(rawData);
+
+  chart.options.data[0] = {
+    type: "column",
+    dataPoints: dataPoints,
+    showInLegend: true,
+    legendText: "Number of professors (within UMD.IO/V1/professors) = ".concat(dataPoints.length),
+  }
+  chart.title.set(
+    "text",
+    "Bar Chart for the number of times ".concat(courseID.toUpperCase(), " has been taught by each professor")
+  );
+  chart.options.axisY.title = "Number of Times / Semesters Taught"
+  chart.render();
 }
 
 function displayCourseDepartmentChart(courseID, coursesListGeneral, chart) {
@@ -370,7 +422,18 @@ function displayCourseDepartmentChart(courseID, coursesListGeneral, chart) {
   clearChart(chart);
 
   console.log("fill in later");
-  /* Fill in later */
+  
+  // remove when done
+  const comingSoonContainer = document.querySelector("#coming_soon_container");
+  const displaySection = document.querySelector("#display_section_box");
+  const currentCoursesList = document.querySelector("#current_courses_list");
+
+  displaySection.classList.add("hidden");
+  comingSoonContainer.classList.remove("hidden");
+  setTimeout(()=> {comingSoonContainer.classList.add("hidden"); }, 5000);
+  setTimeout(()=> {currentCoursesList.classList.remove("currentListWrapped"); }, 5000);
+  setTimeout(()=> {currentCoursesList.classList.add("box"); }, 5000);
+
 }
 
 
@@ -473,6 +536,9 @@ async function mainEvent() {
   const courseFilterHelpText = document.querySelector("#course_filter_help_text");
   const courseFilterHelpCheckboxes = document.querySelector("#course_filter_help_checkboxes");
 
+  /* This is temporary */
+  const comingSoonContainer = document.querySelector("#coming_soon_container");
+
   var chart;
   let semestersListGeneral = [];
   let coursesListGeneral = []; // The overall Json list for all course info
@@ -554,6 +620,10 @@ async function mainEvent() {
     displaySectionBox.classList.add("hidden");
     // need to remove currentListWrapped
     // need to add box
+
+    // remove when done
+    comingSoonContainer.classList.add("hidden");
+
   }
 
   function clearCourseTab() {
@@ -568,10 +638,13 @@ async function mainEvent() {
     displaySectionBox.classList.add("hidden");
     coursesListLabel.classList.add("hidden");
     currentCoursesList.classList.add("hidden");
-     // need to remove currentListWrapped
-    // need to add box
+    currentCoursesList.classList.remove("currentListWrapped");
+    currentCoursesList.classList.add("box");
   }
 
+  function displayComingSoon() {
+
+  }
 
   /* Primary Logic Flow */
   /* The Real Main Event */
@@ -579,7 +652,7 @@ async function mainEvent() {
   courseCreateImageButton.addEventListener("click", (event) => {
     console.log("Fired - Clicked course_create_image_button");
 
-    const courseID = courseNameTextfield.value.toLowerCase
+    const courseID = courseNameTextfield.value.toLowerCase();
     const allCourseIDs = getCoursesListLower(coursesListGeneral);
 
     if (allCourseIDs?.includes(courseID)) {
@@ -597,7 +670,7 @@ async function mainEvent() {
         displaySectionBox.classList.remove("hidden");
         currentCoursesList.classList.remove("box");
         currentCoursesList.classList.add("currentListWrapped");
-        displayCourseProfessorChart(courseID, coursesListGeneral, chart);
+        displayCourseProfessorChart(courseID, coursesListGeneral, professorsListGeneral, chart);
       } else {
         console.log("No Step - no filter boxes are checked");
 
@@ -896,6 +969,8 @@ async function mainEvent() {
   headerDepartmentButton.addEventListener("click", (event) => {
     console.log("Fired - Clicked h_department button");
 
+    comingSoonContainer.classList.remove("hidden");
+
     /* this makes the user load the data before allowing any input */
     if (professorsListGeneral.length > 0) {
         headerDepartmentButton.classList.add("hidden");
@@ -968,27 +1043,18 @@ async function mainEvent() {
   console.log("Fired - initialize button");
 
   /* Loading list of professors */
-  console.log("Fired - loading professor - a list of all professors");
+  console.log("Fetching - loading professor - a list of all professors");
   const professorsListRaw = await fetch("https://api.umd.io/v1/professors");
   professorsListGeneral = await professorsListRaw.json();
   localStorage.setItem('professorsListGeneral', JSON.stringify(professorsListGeneral));
-
-
-  /* Loading list of semesters */
- /* console.log("Fired - loading semesters - a list of all semesters");
-  const semestersListRaw = await fetch(
-    "https://api.umd.io/v1/courses/semesters"
-  );
-  semestersListGeneral = await semestersListRaw.json();*/
+  console.log("Stored - put professorsListGeneral in localStorage");
 
   /* Loading list of courses */
-  console.log("Fired - loading courses");  
-
-  const coursesListRaw = await fetch (
-    "https://api.umd.io/v1/courses/list"
-  )
+  console.log("Fetching - loading courses - a list of courseIDs and names");  
+  const coursesListRaw = await fetch ("https://api.umd.io/v1/courses/list");
   coursesListGeneral = await coursesListRaw.json();
   localStorage.setItem('coursesListGeneral', JSON.stringify(coursesListGeneral));
+  console.log("Stored - put coursesListGeneral in localStorage");
 
 
   /* Hiding this box and button */
