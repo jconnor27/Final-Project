@@ -711,6 +711,7 @@ async function mainEvent() {
     const professorName = professorNameTextfield.value.toLowerCase();
     const allProfessorNames = getListProfessorNamesLower(professorsListGeneral);
 
+
     if (allProfessorNames?.includes(professorName)) {
 
       if (professorCoursesCheckbox.checked) {

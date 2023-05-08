@@ -548,20 +548,85 @@ form label {
   /* check it out by using your developer tools to shrink your screen-size */
   .container {
     background-color: rgba(204, 8, 162, 0.65);
-    flex-direction: column;
+    flex-direction: row;
     justify-content: flex-start;
     align-items: center;
+    margin: .5rem;
+
+    height:max-content;
+    max-width: 100%;
   }
 
-  .right_section {
-    align-items: flex-start;
-    justify-content: flex-start;
+  .filterBoxContainer {
+    margin: 0;
+    max-width: 150px;
   }
 
-  /* .restaurant_list is from lab, this will will 
-        need to be changed to accomodate project layout */
-  .restaurant_list {
+  .filterSection, 
+  .filterBoxGold, 
+  .filterNameBox,
+  .filterByBoxGold,
+  .filterBoxWhite {
+    min-width: 150px;
+  }
+
+
+  .bigBoldText {
+    font-size: large;
+  }
+
+  .filterByBoxGold {
+    padding-left: .5rem;
+  }
+
+  .filterByCheckbox {
+    padding-left: 0;
+  }
+
+  .filterNameBox {
+    display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
   }
+
+  .createImageButton {
+    margin-left: 1rem;
+    margin-right: 1rem;
+    height: 50px;
+    align-self: center;
+  }
+
+  .filterNameTextfield {
+    margin: 0;
+    display: flex;
+    width: 125px;
+    align-self: center;
+  }
+
+  .nameTextFieldLabel {
+    margin: 0;
+    justify-content: center;
+  }
+
+  .initialBoxDataLoaded {
+    align-items: center;
+    padding: 1rem;
+  }
+
+  .filterTextfieldLabel {
+    padding-left: .5rem;
+    padding-right: .5rem;
+  }
+
+  .hBottomBox {
+    padding: 1rem;
+  }
+
+  .header {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+
 }
