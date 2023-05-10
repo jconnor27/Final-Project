@@ -559,7 +559,7 @@ form label {
 
   .filterBoxContainer {
     margin: 0;
-    max-width: 150px;
+    max-width: 130px;
   }
 
   .filterSection, 
@@ -567,13 +567,29 @@ form label {
   .filterNameBox,
   .filterByBoxGold,
   .filterBoxWhite {
-    min-width: 150px;
+    min-width: 130px;
   }
 
 
   .bigBoldText {
-    font-size: large;
+    font-size: 14px;
   }
+
+  .filterByBoxGold {
+    font-size: 12px;
+    align-items: flex-end;
+  }
+
+  .filterTextfieldLabel {
+    font-size: 12px;
+  }
+
+  .createImageButton {
+    font-size: 8px;
+    height: 25px;
+    align-self: center;
+  }
+  
 
   .filterByBoxGold {
     padding-left: .5rem;
@@ -614,6 +630,11 @@ form label {
     padding: 1rem;
   }
 
+  .currentListLabel {
+    margin-top: 1rem;
+    align-self: center;
+  }
+
   .filterTextfieldLabel {
     padding-left: .5rem;
     padding-right: .5rem;
@@ -621,6 +642,8 @@ form label {
 
   .hBottomBox {
     padding: 1rem;
+    padding-left: 0;
+    padding-right: 0;
   }
 
   .header {
@@ -628,5 +651,25 @@ form label {
     padding-right: 0;
   }
 
+  .rightSideContainer {
+    flex-direction: column;
+  }
+
+  .displaySection {
+    margin: 0;
+  }
+
+  .currentListWrapped {
+    max-height: 200px;
+    max-width: fit-content;
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
+
+  .wrappedListElement {
+    font-size: 12px;
+    margin-left: .5rem;
+    margin-right: .5rem;
+  }
 
 }
