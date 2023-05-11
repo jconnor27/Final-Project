@@ -58,26 +58,13 @@
                 <u>Department</u>
               </div>
               <div class="filterNameBox">
-                <label
-                  for="department_name_textfield"
-                  class="nameTextfieldLabel"
-                  >Name:</label
-                >
-                <input
-                  type="text"
-                  class="filterNameTextfield"
-                  id="department_name_textfield"
-                  name="departmentNameTextfield"
-                />
+                <label for="department_name_textfield" class="nameTextfieldLabel">Name:</label>
+                <input type="text" class="filterNameTextfield" id="department_name_textfield" name="departmentNameTextfield"/>
               </div>
               <div class="filterByBoxGold bigText">
                 Filter By:
                 <button
-                  type="button"
-                  class="createImageButton"
-                  id="department_create_image_button"
-                >
-                  Create Image
+                  type="button" class="createImageButton" id="department_create_image_button"> Create Image
                 </button>
               </div>
               <div class="filterBoxWhite">
@@ -109,12 +96,9 @@
               </div>
               <!-- When "Professor" box is clicked, this box comes up -->
               <div
-                class="filterSubBoxWhite hidden"
-                id="filter_department_professor_box"
-              >
+                class="filterSubBoxWhite hidden" id="filter_department_professor_box">
                 <div class="filterSubBoxContainer">
-                  <input
-                    type="checkbox"
+                  <input type="checkbox"
                     class="filterBySubCheckbox"
                     id="department_professor_semesters_checkbox"
                     name="departmentProfessorSemesters"
@@ -194,6 +178,21 @@
               <div class="helpTextLine">(click) a box</div>
             </div>
           </div>
+          <div class="filterHelpContainer hidden" id="department_filter_help_container">
+            <div class="departmentFilterHelpMessageContainer hidden" id="department_filter_help_text">
+              <div class="helpTextLine">Error:</div>
+              <div class="helpTextLine">Please</div>
+              <div class="helpTextLine">enter the</div>
+              <div class="helpTextLine">full name </div>
+              <div class="helpTextLine">of one</div>
+              <div class="helpTextLine">department</div>
+            </div>
+            <div class="departmentFilterHelpMessageContainer hidden" id="department_filter_help_checkboxes">
+              <div class="helpTextLine">Error:</div>
+              <div class="helpTextLine">Please select</div> 
+              <div class="helpTextLine">(click) a box</div>
+            </div>
+          </div>
           <!-- Right Side -->
           <div class="rightSideContainer">
             <div class="currentListContainer">
@@ -203,14 +202,20 @@
             <div class="currentListLabel bigText hidden" id="courses_list_label">
               List of Courses
             </div>
+            <div class="currentListLabel bigText hidden" id="departments_list_label">
+              List of Departments
+            </div>
             <ol class="box hidden" id="current_courses_list">
             </ol>
             <ol class="box hidden" id="current_professors_list">
+            </ol>
+            <ol class="box hidden" id="current_departments_list">
             </ol>
              <!-- Initial prompt if data is not loaded -->
              <div class="box initialBoxDataUnloaded" id="initial_box_data_unloaded">
               <div class="introTextLine">If you are reading this, you probably did not</div>
               <div class="introSubTextLine">arrive at this page via the "Home Page".</div>
+              <div class="introTextLine">Or you wanted to reload the data.</div>
               <div class="introTextLine">That is alright, just click the button titled:</div>
               <div class="introSubTextLine">"Initialize Data" to begin.</div>
               <button type="button" class="initializeDataButton" id="initialize_data_button">
@@ -219,6 +224,7 @@
             </div>
             <!-- Initial prompt if data is loaded -->
             <div class="box initialBoxDataLoaded hidden" id="initial_box_data_loaded">
+              <div class="introTextLine">Welcome to the UMD.io/V1 Data Visualization Tool.</div>
               <div class="introTextLine">The required data from UMD.io (V1) is loaded.</div>
               <div class="introTextLine">Select (click) a tab above to begin.</div>
               <div class="introTextLine">A menu will appear on the left, and a list of</div>
@@ -258,6 +264,7 @@
         </div>
       </form>
     </div>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
     <script src="./script.js"></script>
   </body>
