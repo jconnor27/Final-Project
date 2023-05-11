@@ -4,7 +4,7 @@ Github Pages Link:
 https://jconnor27.github.io/Final-Project-Repo/
 
 # About 
-(Updated: 4/19/23)
+(Updated: 5/11/23)
 
 The information problem I am hoping to examine pertains to instructors, and their capabilities
 of teaching different classes. Do you want to see all the classes your favorite professor is or 
@@ -23,3 +23,10 @@ the course.
 o When searching by department or professor:
 ▪ Returns a graph comparing the number of the types of courses taught.
 • Can click on a portion to see the list of courses.
+
+# Target Browsers
+(Updated 5/11/23)
+
+My data visualization tool is targeted towards iOS, or Chrome. These are the browsers I have 
+tesetd my tool on the most, and can almost gurantee success.
+
